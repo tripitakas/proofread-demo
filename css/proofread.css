@@ -1,0 +1,467 @@
+/*公共样式*/
+#main {
+    overflow:hidden;
+}
+
+/*公共样式*/
+.btns span {
+    display: inline-block;
+    width: 48px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #abafb2;
+    font-size: 14px;
+    cursor: pointer;
+    color: #abafb2;
+    border-radius: 18px;
+}
+
+.btns span:hover {
+    display: inline-block;
+    width: 48px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #27a9e3;
+    font-size: 14px;
+    cursor: pointer;
+    color: #27a9e3;
+    border-radius: 18px;
+}
+
+.tools .pager span, .correct-in .pager span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #27a9e3;
+    font-size: 14px;
+    cursor: pointer;
+    border-color: #27a9e3;
+    color: #27a9e3;
+    margin-left: -6px;
+}
+
+    
+.tools .pager span:first-child, .correct-in .pager span:first-child {
+    border-bottom-left-radius: 100%;
+    border-top-left-radius: 100%; 
+}
+
+.tools .pager span:first-child:hover, .correct-in .pager span:first-child:hover {
+    border-color: #777;
+    color: #777;
+    
+}
+
+.tools .pager span:nth-child(3), .correct-in .pager span:nth-child(3) {
+    border-bottom-right-radius: 100%;
+    border-top-right-radius: 100%; 
+}
+
+.tools .pager span:nth-child(3):hover, .correct-in .pager span:nth-child(3):hover {
+    border-color: #27a9e3;
+    color: #27a9e3;
+}
+
+.el-tabs__header {
+    margin: 0;
+}
+
+.pager span:nth-child(2) {
+    height: 30px;
+    padding: 0 10px;
+    width: auto;
+    line-height: 30px;
+    border-left: none;
+    border-right: none;
+}
+
+.btns button {
+    display: inline-block;
+    width: 68px;
+    height: 30px;
+    border-radius: 18px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #abafb2;
+    font-size: 16px;
+    cursor: pointer;
+    color: #2e363f;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.btns .store {
+    margin-right: 10px;
+    border-color: #27a9e3;
+    color: #27a9e3;
+}
+
+.red {
+    color: #cc1626;
+}
+
+.green {
+    color: #3dcc16;
+}
+
+.redbg {
+    background: #cc1626;
+    color: #fff;
+}
+
+
+.dialog-common {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, .76);
+    padding: 10px;
+    z-index: 2;
+    height: auto;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.dialog-common:before {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    content: " ";
+    -webkit-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    transform: rotate(225deg);
+    border: 1px solid transparent;
+    background-color: #fff;
+    top: -6px;
+    left: 50%;
+    margin-left: -103px;
+    border-top: none;
+    border-left: none;
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .3);
+}
+
+/*文字校对*/
+.correct {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.correct-in {
+    padding-top: 10px;
+    padding-left: 10px;
+    width: calc(100% - 30px);
+}
+
+.correct .left {
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-right: 1%;
+}
+
+.correct .left .hd {
+    line-height: 50px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+}
+
+.correct .left .bd, .correct .right .bd {
+    overflow: auto;
+    height: 90%;
+}
+
+.correct .right {
+    width: 48%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.correct .right .hd {
+    line-height: 50px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 10px;
+    color: #2e363f;
+}
+
+.correct .right .hd .pager {
+    display: inline-block;
+    margin: 0 12px 0 4px;
+}
+
+.correct .right .hd .newline, .correct .right .hd .del {
+    position: relative;
+    padding-right: 30px;
+}
+
+.correct .right .hd .newline {
+    margin-right: 13px;
+}
+
+.correct .right .hd .newline:before, .correct .right .hd .del:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    background: url(../img/correct/newline.png) no-repeat;
+    width: 23px;
+    height: 22px;
+}
+
+.correct .right .hd .del:before {
+    width: 24px;
+    height: 24px;
+    background: url(../img/correct/del.png) no-repeat;
+}
+
+.correct .el-tabs--bottom .el-tabs__header.is-bottom {
+    margin-bottom: 0;
+    margin-top: 0px;
+}
+
+.correct .el-tabs__content {
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid lightgray;
+}
+
+.correct .right .hd span i {
+    top: 10px;
+    display: block;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+}
+
+.correct .right .hd .btns {
+    display: inline-block;
+}
+
+.correct .right .hd .btns span {
+    display: inline-block;
+    width: auto;
+    border-radius: 18px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #fff;
+    font-size: 16px;
+    cursor: pointer;
+    color: #2e363f;
+    position: relative;
+}
+
+.correct .right .hd span i.addupline {
+    background-image: url(../img/correct/addline_up.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.addupline:hover {
+    transform: scale(1.2);
+}
+
+.correct .right .hd span i.adddownline {
+    background-image: url(../img/correct/addline_down.png);
+    transition: all 0.2s;
+}
+
+.correct .right .hd span i.adddownline:hover {
+    transform: scale(1.2);
+}
+
+.correct .right .hd span i.jtleft {
+    background-image: url(../img/correct/jtleft.png);
+    transition: all 0.2s;
+}
+
+.correct .right .hd span i.jtleft:hover {
+    transform: scale(1.2);
+}
+
+.correct .right .hd span i.jtright {
+    background-image: url(../img/correct/jtright.png);
+    transition: all 0.2s;
+}
+
+.correct .right .hd span i.jtright:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.emptyplace {
+    background-image: url(../img/correct/emptyplace.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.emptyplace:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.variants {
+    background-image: url(../img/correct/variants.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.variants:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.variantshidden {
+    background-image: url(../img/correct/variantshidden.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.variantshidden:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.emptyplacehidden {
+    background-image: url(../img/correct/emptyplace_hidden.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.emptyplacehidden:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.deleteline {
+    background-image: url(../img/correct/deleteline.png);
+    width: 50;
+    transition: all 0.2s;
+}
+.correct .right .hd span i.deleteline:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.doubts {
+    background-image: url(../img/correct/doubts.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.doubts:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.check {
+    background-image: url(../img/correct/check.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.check:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.ok {
+    background-image: url(../img/correct/ok.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.ok:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.help {
+    background-image: url(../img/correct/help.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.help:hover {
+    transform: scale(1.2);
+}
+.correct .right .hd span i.returnback {
+    background-image: url(../img/correct/returnback.png);
+    transition: all 0.2s;
+}
+.correct .right .hd span i.returnback:hover {
+    transform: scale(1.2);
+}
+.correct .right .diff-text-pane {
+    border-bottom: 1px solid #ccc;
+}
+
+.correct .right .bd {
+    overflow-y: scroll;
+    /* position: relative; */
+}
+
+.correct .right .bd ul {
+    padding: 10px;
+}
+
+.correct .right .bd li {
+    color: #333;
+    border-bottom: 1px dashed #ccc;
+    font-size: 24px;
+    padding-bottom: 2px;
+    line-height: 35px;
+}
+
+.correct .correct-dialog {
+    /* top: 45px;
+    left: 135px; */
+    padding: 10px;
+}
+
+.correct .correct-dialog:before {
+    left: 31%;
+}
+
+.correct .correct-dialog .item {
+    margin-bottom: 10px;
+}
+
+.correct .correct-dialog .item dt {
+    display: inline-block;
+    width: 72px;
+    text-align: right;
+    margin-right: 5px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.correct .correct-dialog .item dd {
+    display: inline-block;
+}
+
+.correct .correct-dialog .item input[type="text"] {
+    display: inline-block;
+    border: 0;
+    width: 250px;
+    padding: 0 5px;
+    height: 36px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.correct .correct-dialog .item .text {
+    display: inline-block;
+    width: 250px;
+    padding: 0 5px;
+    min-height: 36px;
+    line-height: 36px;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-weight: 100;
+    white-space: normal;
+}
+
+
+#hintbox{
+    display:none;
+    position: absolute;
+    font-size: 12 px;
+    background-color: #fff;
+    color: #ccc;
+    border: 1px solid #ccc;
+    padding: 0px 10px;
+    border-radius:5px;
+    line-height: 28px;
+    width: 80px;
+}   
+
+#hintbox:before {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    content: " ";
+    -webkit-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    transform: rotate(225deg);
+    border: 1px solid transparent;
+    background-color: #fff;
+    top: -6px;
+    left: 50%;
+    margin-left: -6px;
+    border-top: none;
+    border-left: none;
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .3);
+}
