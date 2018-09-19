@@ -63,18 +63,3 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
     -moz-appearance: textfield;
 }
-.fl{
-    float: left;
-}
-.fr{
-    float: right;
-}
-.tl{
-    text-align: left;
-}
-.tc{
-  text-align: center;
-}
-.tr{
-    text-align: right;
-}

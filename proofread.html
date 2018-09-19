@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,12 +9,6 @@
   <link href="./css/proofread.css" type="text/css" rel="stylesheet">
 
   <style type="text/css">
-    .pager {
-      padding-left: 0;
-      margin: 0px 0;
-      list-style: none;
-    }
-
     .context {
       font-size: 24px;
       font-weight: 320;
@@ -26,13 +21,16 @@
       color: red;
       cursor: pointer;
     }
+
     .same {
       color: black;
     }
+
     .variant {
       color: blue;
       cursor: pointer;
     }
+
     .current {
       border: 1px solid red;
     }
@@ -43,83 +41,84 @@
 <body>
   <div id="main">
     <div class="wrapper">
-        <div id="correct">
-          <div class="row content-container correct">
-            <div class="correct-in clearfix">
-              <div class="left fl">
-                <div class="hd">
-                  <div class="pager tr"><span>-</span> <span><em>1</em>:<em></em>1</span> <span>+</span></div>
-                </div>
-                <div class="bd">
-                  <div class="bd-in">
-                    <div class="canvas-pane">
-                      <img id="pic" src="./data/LC_79_1_1.jpg" width="1200" />
-                    </div>
-                  </div>
+      <div id="pfread" class="pfread">
+        <div class="pfread-in">
+          <div class="left fl">
+            <div class="hd">
+              <div class="btns">
+                <div class="fr">
+                  <span><i title="缩小" class="reduce"></i></span>
+                  <span><i title="放大" class="enlarge"></i></span>
+                  <span><i title="全屏" class="fullscrean"></i></span>
                 </div>
               </div>
-              <div class="right fr clearfix">
-                <div class="diff-text-pane">
-                  <div class="hd clearfix cmd-block">
-                    <div class="left-tool fl">
-                      <div class="btns"><span title="上一条异文"><i class="jtleft"></i></span> 
-                        <span style="top: -3px;"><em title="异文" style="color:#28A0DE">0 / 448</em></span>
-                        <span title="下一条异文"><i class="jtright"></i></span>
-                        <span><i title="显隐空位符" class="emptyplace"></i></span>
-                        <span><i title="显隐异体字" class="variants"></i></span>
-                        <span><i title="删除该行" class="deleteline"></i></span>
-                        <span><i title="向上增行" class="addupline"></i></span>
-                        <span><i title="向下增行" class="adddownline"></i></span>
-                        <span><i title="存疑" class="doubts"></i></span>
-                        <span><i title="图文匹配检查" class="check"></i></span>
-                        <div id="hintbox"></div>
-                      </div>
-                    </div>
-                    <div class="left-tool fr">
-                      <div class="btns">
-                        <span><i title="退回任务" class="returnback"></i></span>
-                        <span><i title="完成" class="ok"></i></span>
-                        <span><i title="帮助" class="help"></i></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bd">
-                    <div id="context" class="context">
-                    </div>
-                    <div class="correct-dialog dialog-common" id="correct-dialog" style="display:none">
-                      <dl class="item"><dt>比对本</dt>
-                        <dd class="text" id="correct-dialog-cmp">&nbsp;</dd>
-                      </dl>
-                      <dl class="item"><dt>OCR</dt>
-                        <dd class="text" id="correct-dialog-ocr">&nbsp;</dd>
-                      </dl>
-                      <dl class="item"><dt>选择结果</dt>
-                        <dd class="text"><span id="pop-input" type="text" placeholder="请选择或输入……" contenteditable="true"></span></dd>
-                      </dl>
-                    </div>
-                  </div>
+            </div>
+            <div class="bd">
+              <div class="bd-in">
+                <div class="canvas-pane">
+                  <img id="pic" src="./data/LC_79_1_1.jpg" width="1200" />
                 </div>
               </div>
             </div>
           </div>
+          <div class="right fr">
+            <div class="hd">
+              <div class="btns">
+                <div class="fl">
+                  <span><i title="上一条异文" class="previous"></i></span>
+                  <span><em title="异文" style="color:#28A0DE; cursor:text; line-height:30px; ">0 / 448</em></span>
+                  <span><i title="下一条异文" class="next"></i></span>
+                  <span><i title="显隐空位符" class="emptyplace"></i></span>
+                  <span><i title="显隐异体字" class="variants"></i></span>
+                  <span><i title="删除该行" class="deleteline"></i></span>
+                  <span><i title="向上增行" class="addupline"></i></span>
+                  <span><i title="向下增行" class="adddownline"></i></span>
+                  <span><i title="存疑" class="doubts"></i></span>
+                  <span><i title="图文匹配检查" class="check"></i></span>
+                </div>
+                <div class="fr">
+                  <span><i title="退回任务" class="returnback"></i></span>
+                  <span><i title="完成" class="ok"></i></span>
+                  <span><i title="帮助" class="help"></i></span>
+                </div>
+
+              </div>
+            </div>
+            <div class="bd">
+              <div class="context" id="context">
+              </div>
+              <div class="pfread-dialog dialog-common" id="pfread-dialog" style="display:none">
+                <dl class="item"><dt>比对本</dt>
+                  <dd class="text" id="pfread-dialog-cmp">&nbsp;</dd>
+                </dl>
+                <dl class="item"><dt>OCR</dt>
+                  <dd class="text" id="pfread-dialog-ocr">&nbsp;</dd>
+                </dl>
+                <dl class="item"><dt>选择结果</dt>
+                  <dd class="text"><span id="pfread-dialog-slct" type="text" placeholder="请选择或输入……" contenteditable="true"></span></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 
   <script src="./js/jquery-latest.js" type="text/javascript"></script>
   <script src="./data/LC_79_1_1.json" type="text/javascript"></script>
   <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
       // 根据json生成html
       var contentHtml = "";
       function genHtmlByJson(item) {
-        if(item.type == 'same') {
+        if (item.type == 'same') {
           contentHtml += "<span contenteditable='true' class='same' ocr='" + item.ocr + "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
-        } else if(item.type == 'diff') {
+        } else if (item.type == 'diff') {
           contentHtml += "<span contenteditable='true' class='diff' ocr='" + item.ocr + "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
-        } else if(item.type == 'variant') {
+        } else if (item.type == 'variant') {
           contentHtml += "<span contenteditable='true' class='variant' ocr='" + item.ocr + "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
-        } else if(item.type == 'newline') {
+        } else if (item.type == 'newline') {
           contentHtml += "<span class='newline'> <br> </span>";
         }
       }
@@ -127,44 +126,45 @@
       $('#context').html(contentHtml);
 
       // click diff
-      $(".diff, .variant").click(function(e){
+      $(".diff, .variant").click(function (e) {
         e.stopPropagation();
-        $("#correct-dialog-cmp").text($(this).attr("cmp"));
-        $("#correct-dialog-ocr").text($(this).attr("ocr"));
-        $("#correct-dialog").offset({top: $(this).offset().top + 40, left: $(this).offset().left});
-        $("#correct-dialog").show();
+        $("#pfread-dialog-cmp").text($(this).attr("cmp"));
+        $("#pfread-dialog-ocr").text($(this).attr("ocr"));
+        $("#pfread-dialog").offset({ top: $(this).offset().top + 40, left: $(this).offset().left });
+        $("#pfread-dialog").show();
       });
 
       // click same
-      $(".same").click(function(){
+      $(".same").click(function () {
         $(".same").removeClass("current");
         $(this).addClass("current");
       });
 
       // click empty
-      $(document).click(function(e) {  
-        var _con = $('#correct-dialog'); // 设置目标区域  
-        if (!_con.is(e.target) && _con.has(e.target).length === 0) {  
-          $("#correct-dialog").hide();
-        }  
-      });  
+      $(document).click(function (e) {
+        var _con = $('#pfread-dialog'); // 设置目标区域  
+        if (!_con.is(e.target) && _con.has(e.target).length === 0) {
+          $("#pfread-dialog").hide();
+        }
+      });
 
       // show/hide
-      $(document).on('click','.variants',function(){
-        $('.variant').css("color","black");
+      $(document).on('click', '.variants', function () {
+        $('.variant').css("color", "black");
+        $('.variant').addClass("varianthidden");
         $(this).removeClass("variants");
         $(this).addClass("variantshidden");
       });
-      $(document).on('click','.variantshidden',function(){
-        $('.variant').css("color","blue");
+      $(document).on('click', '.variantshidden', function () {
+        $('.variant').css("color", "blue");
         $(this).removeClass("variantshidden");
         $(this).addClass("variants");
       });
-      $(document).on('click','.emptyplace',function(){
+      $(document).on('click', '.emptyplace', function () {
         $(this).removeClass("emptyplace");
         $(this).addClass("emptyplacehidden");
       });
-      $(document).on('click','.emptyplacehidden',function(){
+      $(document).on('click', '.emptyplacehidden', function () {
         $(this).removeClass("emptyplacehidden");
         $(this).addClass("emptyplace");
       });
