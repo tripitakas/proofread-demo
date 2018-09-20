@@ -22,13 +22,13 @@
 }
 
 .pfread-in {
-    padding-top: 10px;
-    padding-left: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
     width: calc(100% - 30px);
 }
 
 .pfread .left {
-    width: 50%;
+    width: 49%;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -96,7 +96,8 @@
 }
 
 .pfread .right {
-    width: 48%;
+    width: 49%;
+    margin-left: 1%;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
@@ -182,32 +183,32 @@
 .pfread .right .hd span i.next:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.emptyplace {
-    background-image: url(../img/pfread/emptyplace.png);
+.pfread .right .hd span i.variants-show {
+    background-image: url(../img/pfread/variants_show.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.emptyplace:hover {
+.pfread .right .hd span i.variants-show:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.variants {
-    background-image: url(../img/pfread/variants.png);
+.pfread .right .hd span i.variants-hidden {
+    background-image: url(../img/pfread/variants_hidden.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.variants:hover {
+.pfread .right .hd span i.variants-hidden:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.variantshidden {
-    background-image: url(../img/pfread/variantshidden.png);
+.pfread .right .hd span i.emptyplaces-show {
+    background-image: url(../img/pfread/emptyplaces_show.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.variantshidden:hover {
+.pfread .right .hd span i.emptyplaces-show:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.emptyplacehidden {
-    background-image: url(../img/pfread/emptyplace_hidden.png);
+.pfread .right .hd span i.emptyplaces-hidden {
+    background-image: url(../img/pfread/emptyplaces_hidden.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.emptyplacehidden:hover {
+.pfread .right .hd span i.emptyplaces-hidden:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.deleteline {
