@@ -69,21 +69,21 @@
 }
 
 .pfread .hd span i.reduce {
-    background-image: url(../img/pfread/reduce.png);
+    background-image: url(../img/proofread/reduce.png);
     transition: all 0.2s;
 }
 .pfread .hd span i.reduce:hover {
     transform: scale(1.2);
 }
 .pfread .hd span i.enlarge {
-    background-image: url(../img/pfread/enlarge.png);
+    background-image: url(../img/proofread/enlarge.png);
     transition: all 0.2s;
 }
 .pfread .hd span i.enlarge:hover {
     transform: scale(1.2);
 }
 .pfread .hd span i.fullscrean {
-    background-image: url(../img/pfread/fullscrean.png);
+    background-image: url(../img/proofread/fullscrean.png);
     transition: all 0.2s;
 }
 .pfread .hd span i.fullscrean:hover {
@@ -151,68 +151,68 @@
     top: 0;
     right: 0;
     content: "";
-    background: url(../img/pfread/newline.png) no-repeat;
+    background: url(../img/proofread/newline.png) no-repeat;
     width: 23px;
     height: 22px;
 }
 .pfread .right .hd span i.addupline {
-    background-image: url(../img/pfread/addline_up.png);
+    background-image: url(../img/proofread/addline-up.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.addupline:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.adddownline {
-    background-image: url(../img/pfread/addline_down.png);
+    background-image: url(../img/proofread/addline-down.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.adddownline:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.previous {
-    background-image: url(../img/pfread/previous.png);
+    background-image: url(../img/proofread/previous.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.previous:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.next {
-    background-image: url(../img/pfread/next.png);
+    background-image: url(../img/proofread/next.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.next:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.variants-show {
-    background-image: url(../img/pfread/variants_show.png);
+.pfread .right .hd span i.variants-highlight {
+    background-image: url(../img/proofread/variants-highlight.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.variants-show:hover {
+.pfread .right .hd span i.variants-highlight:hover {
     transform: scale(1.2);
 }
-.pfread .right .hd span i.variants-hidden {
-    background-image: url(../img/pfread/variants_hidden.png);
+.pfread .right .hd span i.variants-normal {
+    background-image: url(../img/proofread/variants-normal.png);
     transition: all 0.2s;
 }
-.pfread .right .hd span i.variants-hidden:hover {
+.pfread .right .hd span i.variants-normal:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.emptyplaces-show {
-    background-image: url(../img/pfread/emptyplaces_show.png);
+    background-image: url(../img/proofread/emptyplaces-show.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.emptyplaces-show:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.emptyplaces-hidden {
-    background-image: url(../img/pfread/emptyplaces_hidden.png);
+    background-image: url(../img/proofread/emptyplaces-hidden.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.emptyplaces-hidden:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.deleteline {
-    background-image: url(../img/pfread/deleteline.png);
+    background-image: url(../img/proofread/deleteline.png);
     width: 50;
     transition: all 0.2s;
 }
@@ -220,35 +220,35 @@
     transform: scale(1.2);
 }
 .pfread .right .hd span i.doubts {
-    background-image: url(../img/pfread/doubts.png);
+    background-image: url(../img/proofread/doubts.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.doubts:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.check {
-    background-image: url(../img/pfread/check.png);
+    background-image: url(../img/proofread/check.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.check:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.ok {
-    background-image: url(../img/pfread/ok.png);
+    background-image: url(../img/proofread/ok.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.ok:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.help {
-    background-image: url(../img/pfread/help.png);
+    background-image: url(../img/proofread/help.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.help:hover {
     transform: scale(1.2);
 }
 .pfread .right .hd span i.returnback {
-    background-image: url(../img/pfread/returnback.png);
+    background-image: url(../img/proofread/returnback.png);
     transition: all 0.2s;
 }
 .pfread .right .hd span i.returnback:hover {
