@@ -121,7 +121,7 @@ $(document).on('click', '#pfread-dialog-ocr, #pfread-dialog-cmp', function () {
 
 // -- 导航条 --
 // 上一条异文
-$(document).on('click', '.previous', function () {
+$(document).on('click', '.btn-previous', function () {
     if ($('#variants').hasClass('variants-highlight')) {
         var current = $('.current-not-same');
         var idx = $('.pfread .right .not-same').index(current);
@@ -139,7 +139,7 @@ $(document).on('click', '.previous', function () {
 
 
 // 下一条异文
-$(document).on('click', '.next', function () {
+$(document).on('click', '.btn-next', function () {
     if ($('#variants').hasClass('variants-highlight')) {
         var current = $('.current-not-same');
         var idx = $('.pfread .right .not-same').index(current);
@@ -154,7 +154,7 @@ $(document).on('click', '.next', function () {
 });
 
 // 删除该行
-$(document).on('click', '.deleteline', function () {
+$(document).on('click', '.btn-deleteline', function () {
     if ($('.current-span').length == 0) {
         return;
     }
@@ -168,7 +168,7 @@ $(document).on('click', '.deleteline', function () {
 });
 
 // 向上增行
-$(document).on('click', '.addupline', function (e) {
+$(document).on('click', '.btn-addupline', function (e) {
     if ($('.current-span').length == 0) {
         return;
     }
@@ -180,7 +180,7 @@ $(document).on('click', '.addupline', function (e) {
 });
 
 // 向下增行
-$(document).on('click', '.adddownline', function (e) {
+$(document).on('click', '.btn-adddownline', function (e) {
     if ($('.current-span').length == 0) {
         return;
     }
@@ -191,37 +191,35 @@ $(document).on('click', '.adddownline', function (e) {
     e.stopPropagation();
 });
 
-
-
 // 隐藏异体字
-$(document).on('click', '.variants-highlight', function () {
+$(document).on('click', '.btn-variants-highlight', function () {
     $('.variant').removeClass("variant-highlight");
-    $(this).removeClass("variants-highlight");
-    $(this).addClass("variants-normal");
+    $(this).removeClass("btn-variants-highlight");
+    $(this).addClass("btn-variants-normal");
     // 设置异文提示信息
     setNotSameTips();
 });
 // 显示异体字
-$(document).on('click', '.variants-normal', function () {
+$(document).on('click', '.btn-variants-normal', function () {
     $('.variant').addClass("variant-highlight");
-    $(this).removeClass("variants-normal");
-    $(this).addClass("variants-highlight");
+    $(this).removeClass("btn-variants-normal");
+    $(this).addClass("btn-variants-highlight");
     // 设置异文提示信息
     setNotSameTips();
 
 });
 // 隐藏空位符
-$(document).on('click', '.emptyplaces-show', function () {
+$(document).on('click', '.btn-emptyplaces-show', function () {
     // 隐藏所有空位符
     $('.emptyplace').addClass("hidden");
     // 修改按钮状态
-    $(this).removeClass("emptyplaces-show");
-    $(this).addClass("emptyplaces-hidden");
+    $(this).removeClass("btn-emptyplaces-show");
+    $(this).addClass("btn-emptyplaces-hidden");
 });
 // 显示空位符
-$(document).on('click', '.emptyplaces-hidden', function () {
+$(document).on('click', '.btn-emptyplaces-hidden', function () {
     $('.emptyplace').removeClass("hidden");
-    $(this).removeClass("emptyplaces-hidden");
-    $(this).addClass("emptyplaces-show");
+    $(this).removeClass("btn-emptyplaces-hidden");
+    $(this).addClass("btn-emptyplaces-show");
 });
 

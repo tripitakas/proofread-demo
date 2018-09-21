@@ -13,8 +13,6 @@
 .tr{
     text-align: right;
 }
-
-/*文字校对*/
 .pfread {
     width: 100%;
     height: 100%;
@@ -25,6 +23,11 @@
     padding-top: 15px;
     padding-left: 15px;
     width: calc(100% - 30px);
+}
+
+.pfread .bd {
+    overflow: auto;
+    height: calc(100% - 80px);
 }
 
 .pfread .left {
@@ -68,28 +71,6 @@
     position: relative;
 }
 
-.pfread .hd span i.reduce {
-    background-image: url(../img/proofread/reduce.png);
-    transition: all 0.2s;
-}
-.pfread .hd span i.reduce:hover {
-    transform: scale(1.2);
-}
-.pfread .hd span i.enlarge {
-    background-image: url(../img/proofread/enlarge.png);
-    transition: all 0.2s;
-}
-.pfread .hd span i.enlarge:hover {
-    transform: scale(1.2);
-}
-.pfread .hd span i.fullscrean {
-    background-image: url(../img/proofread/fullscrean.png);
-    transition: all 0.2s;
-}
-.pfread .hd span i.fullscrean:hover {
-    transform: scale(1.2);
-}
-
 .pfread .left .bd {
     overflow: auto;
     height: calc(100% - 80px);
@@ -108,11 +89,6 @@
     border-bottom: 1px solid #ccc;
     padding: 0 10px;
     color: #2e363f;
-}
-
-.pfread .right .hd .newline {
-    position: relative;
-    padding-right: 30px;
 }
 
 .pfread .right .hd span i {
@@ -142,128 +118,77 @@
     position: relative;
 }
 
-.pfread .right .hd .newline {
-    margin-right: 13px;
+/* naviagte buttons */
+.pfread .hd i.btn-reduce {
+    background-image: url(../img/proofread/reduce.png);
 }
-
-.pfread .right .hd .newline:before{
-    position: absolute;
-    top: 0;
-    right: 0;
-    content: "";
-    background: url(../img/proofread/newline.png) no-repeat;
-    width: 23px;
-    height: 22px;
+.pfread .hd i.btn-enlarge {
+    background-image: url(../img/proofread/enlarge.png);
 }
-.pfread .right .hd span i.addupline {
+.pfread .hd i.btn-fullscrean {
+    background-image: url(../img/proofread/fullscrean.png);
+}
+.pfread .hd i.btn-addupline {
     background-image: url(../img/proofread/addline-up.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.addupline:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.adddownline {
+.pfread .hd i.btn-adddownline {
     background-image: url(../img/proofread/addline-down.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.adddownline:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.previous {
+.pfread .hd i.btn-previous {
     background-image: url(../img/proofread/previous.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.previous:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.next {
+.pfread .hd i.btn-next {
     background-image: url(../img/proofread/next.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.next:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.variants-highlight {
+.pfread .hd i.btn-variants-highlight {
     background-image: url(../img/proofread/variants-highlight.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.variants-highlight:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.variants-normal {
+.pfread .hd i.btn-variants-normal {
     background-image: url(../img/proofread/variants-normal.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.variants-normal:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.emptyplaces-show {
+.pfread .hd i.btn-emptyplaces-show {
     background-image: url(../img/proofread/emptyplaces-show.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.emptyplaces-show:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.emptyplaces-hidden {
+.pfread .hd i.btn-emptyplaces-hidden {
     background-image: url(../img/proofread/emptyplaces-hidden.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.emptyplaces-hidden:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.deleteline {
+.pfread .hd i.btn-deleteline {
     background-image: url(../img/proofread/deleteline.png);
-    width: 50;
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.deleteline:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.doubts {
+.pfread .hd i.btn-doubts {
     background-image: url(../img/proofread/doubts.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.doubts:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.check {
+.pfread .hd i.btn-check {
     background-image: url(../img/proofread/check.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.check:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.ok {
+.pfread .hd i.btn-ok {
     background-image: url(../img/proofread/ok.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.ok:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.help {
+.pfread .hd i.btn-help {
     background-image: url(../img/proofread/help.png);
-    transition: all 0.2s;
 }
-.pfread .right .hd span i.help:hover {
-    transform: scale(1.2);
-}
-.pfread .right .hd span i.returnback {
+.pfread .hd i.btn-returnback {
     background-image: url(../img/proofread/returnback.png);
-    transition: all 0.2s;
-}
-.pfread .right .hd span i.returnback:hover {
-    transform: scale(1.2);
 }
 
-.pfread .right .bd {
-    overflow: auto;
-    height: calc(100% - 80px);
+.btn-reduce,.btn-enlarge,.btn-fullscrean,
+.btn-addupline,.btn-adddownline,.btn-previous,.btn-next,
+.btn-variants-highlight,.btn-variants-normal,.btn-deleteline,
+.btn-emptyplaces-show,.btn-emptyplaces-hidden,.btn-doubts,.btn-check,
+.btn-ok,.btn-help,.btn-returnback {
+    transition: all 0.2s;
+}
+
+.btn-reduce:hover,.btn-enlarge:hover,.btn-fullscrean:hover,
+.btn-addupline:hover,.btn-adddownline:hover,.btn-previous:hover,.btn-next:hover,
+.btn-variants-highlight:hover,.btn-variants-normal:hover,.btn-deleteline:hover,
+.btn-emptyplaces-show:hover,.btn-emptyplaces-hidden:hover,.btn-doubts:hover,.btn-check:hover,
+.btn-ok:hover,.btn-help:hover,.btn-returnback:hover {
+    transform: scale(1.2);
 }
 
 /*选择框*/
 .pfread .pfread-dialog {
-    /* top: 45px;
-    left: 135px; */
     padding: 10px;
 }
 
