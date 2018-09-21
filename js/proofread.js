@@ -4,7 +4,7 @@
  * Date: 2018-9-19
  */
 
- // 设置异文提示信息
+// 设置异文提示信息
 function setNotSameTips() {
     if ($('#variants').hasClass('variants-highlight')) {
         var current = $('.current-not-same');
@@ -125,10 +125,12 @@ $(document).on('click', '.previous', function () {
     if ($('#variants').hasClass('variants-highlight')) {
         var current = $('.current-not-same');
         var idx = $('.pfread .right .not-same').index(current);
+        if (idx < 1) return;
         $('.pfread .right .not-same').eq(idx - 1).click();
     } else {
         var current = $('.current-not-same');
         var idx = $('.pfread .right .diff').index(current);
+        if (idx < 1) return;
         $('.pfread .right .diff').eq(idx - 1).click();
     }
     // 设置异文提示信息
@@ -158,7 +160,11 @@ $(document).on('click', '.deleteline', function () {
     }
     $currentLine = $(".current-span").parent(".line");
     $currentLine.fadeOut(500).fadeIn(500);
-    setTimeout(function () { $currentLine.addClass('delete') }, 1100);
+    if ($currentLine.text().trim() == '') {
+        setTimeout(function () { $currentLine.remove() }, 1100);
+    } else {
+        setTimeout(function () { $currentLine.addClass('delete') }, 1100);
+    }
 });
 
 // 向上增行
@@ -168,7 +174,7 @@ $(document).on('click', '.addupline', function (e) {
     }
     $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
-    var newline = "<li><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
+    var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.before(newline);
     e.stopPropagation();
 });
@@ -180,7 +186,7 @@ $(document).on('click', '.adddownline', function (e) {
     }
     $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
-    var newline = "<li><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
+    var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.after(newline);
     e.stopPropagation();
 });
