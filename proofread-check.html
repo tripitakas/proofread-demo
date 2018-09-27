@@ -75,16 +75,15 @@
             <div class="hd">
               <div class="btns">
                 <div class="fr">
-                  <span><i title="缩小" class="reduce"></i></span>
-                  <span><i title="放大" class="enlarge"></i></span>
-                  <span><i title="全屏" class="fullscrean"></i></span>
+                  <span><i title="缩小" class="btn-reduce"></i></span>
+                  <span><i title="放大" class="btn-enlarge"></i></span>
+                  <span><i title="全屏" class="btn-fullscrean"></i></span>
                 </div>
               </div>
             </div>
-            <div class="bd">
+            <div class="bd" id="canvas-bd">
               <div class="bd-in">
-                <div class="canvas-pane">
-                  <img id="pic" src="./data/LC_79_1_1.jpg" width="1200" />
+                <div id="canvas-pane">
                 </div>
               </div>
             </div>
@@ -133,9 +132,27 @@
   </div>
 
   <script src="./js/jquery-latest.js" type="text/javascript"></script>
-  <script src="./data/LC_79_1_1.json" type="text/javascript"></script>
+  <script src="./js/raphael.js" type="text/javascript"></script>
+  <script src="./js/raphael.zoom.js" type="text/javascript"></script>
+  <script src="./js/cut.js" type="text/javascript"></script>
+  <script src="data/LC_79_1_1.js" type="text/javascript"></script>
   <script src="./js/proofread.js" type="text/javascript"></script>
 
+  <script>
+    $.getJSON('data/LC_79_1_1.cut', function(json) {
+      $.cut.create({
+        readonly: true,
+        scrollContainer: '#canvas-bd',
+        width: 1200,
+        height: 799,
+        holder: 'canvas-pane',
+        image: 'data/LC_79_1_1.jpg',
+        chars: json.char_data
+      });
+      $.cut.toggleBox(false);
+      $.cut.switchCurrentBox(null);
+    });
+  </script>
 </body>
 
 </html>
