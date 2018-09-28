@@ -1,4 +1,4 @@
-{
+cutdata = {
     "img_code": "QL_24_31.jpg", 
     "char_data": [
 	{

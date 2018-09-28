@@ -1,4 +1,4 @@
-{
+cutdata = {
     "img_code": "LC_79_1_1.jpg", 
     "char_data": [
         {
