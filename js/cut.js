@@ -398,20 +398,23 @@
 
       var xMin = 1e5, yMin= 1e5, leftTop = null;
 
-      p.chars.forEach(function(box) {
-        box.shape = data.paper.rect(box.x, box.y, box.w, box.h)
+      p.chars.forEach(function(b) {
+        if (b.block_no && b.line_no && b.char_no) {
+          b.char_id = (b.block_no * 1000 + b.line_no) + 'n' + (b.char_no > 9 ? b.char_no : '0' + b.char_no);
+        }
+        b.shape = data.paper.rect(b.x, b.y, b.w, b.h)
           .attr({
             stroke: rgb_a(data.normalColor, data.boxOpacity),
             'stroke-width': 1.5,
             // fill: data.boxFill
           })
-          .data('cid', box.char_id)
-          .data('char', box.ch);
+          .data('cid', b.char_id)
+          .data('char', b.ch);
 
-        if (yMin > box.y - data.unit && xMin > box.x - data.unit) {
-          yMin = box.y;
-          xMin = box.x;
-          leftTop = box.shape;
+        if (yMin > b.y - data.unit && xMin > b.x - data.unit) {
+          yMin = b.y;
+          xMin = b.x;
+          leftTop = b.shape;
         }
       });
 
@@ -463,6 +466,12 @@
     },
 
     findCharById: findCharById,
+
+    findCharsByLine: function(block_no, line_no, char_no) {
+      return data.chars.filter(function(box) {
+        return box.block_no === block_no && box.line_no === line_no && (!char_no || box.char_no === char_no);
+      });
+    },
 
     findBoxByPoint: function(pt) {
       var ret = null, dist = 1e5, d, i, el;

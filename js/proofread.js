@@ -19,35 +19,54 @@ function setNotSameTips() {
     }
 }
 
+// 高亮一行中字组元素对应的字框
+function highlightBox($span) {
+    var $line = $span.parent(), $block = $line.parent();
+    var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
+    var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
+    var char_no;
+    var boxes = $.cut.findCharsByLine(block_no, line_no, char_no);
+
+    $.cut.toggleBox(false);
+    $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
+}
+
 $(document).ready(function () {
     // 根据json生成html
     var contentHtml = "";
     var diffCounts = 0, variantCounts = 0;
     var curBlockNo = 0, curLineNo = 0;
     function genHtmlByJson(item) {
-        var editable = 'false';
+        var cls;
         if (item.block_no != curBlockNo) {
-            if (item.block_no != 1) contentHtml += "</ul>";
+            if (item.block_no != 1) {
+                contentHtml += "</ul>";
+            }
             contentHtml += "<ul class= 'block' id='block-" + item.block_no + "'>";
             curBlockNo = item.block_no;
         }
         if (item.line_no != curLineNo) {
-            if (item.line_no != 1) contentHtml += "</li>";
-            var cls = item.type == 'emptyline' ? 'line emptyline' : 'line';
-            contentHtml += "<li class='" + cls + "'>";
+            if (item.line_no != 1) {
+                contentHtml += "</li>";
+            }
+            cls = item.type == 'emptyline' ? 'line emptyline' : 'line';
+            contentHtml += "<li class='" + cls + "' id='line-" + item.line_no + "'>";
             curLineNo = item.line_no;
         }
         if (item.type == 'same') {
-            contentHtml += "<span contenteditable='" + editable + "' class='same' ocr='" + item.ocr + "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
+            contentHtml += "<span contenteditable='false' class='same' ocr='" + item.ocr +
+              "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
         } else if (item.type == 'diff') {
-            var cls = item.ocr == '' ? 'not-same diff emptyplace' : 'not-same diff';
-            contentHtml += "<span contenteditable='" + editable + "' class='" + cls + "' ocr='" + item.ocr + "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
+            cls = item.ocr == '' ? 'not-same diff emptyplace' : 'not-same diff';
+            contentHtml += "<span contenteditable='false' class='" + cls + "' ocr='" + item.ocr +
+              "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             diffCounts++;
         } else if (item.type == 'variant') {
-            contentHtml += "<span contenteditable='" + editable + "' class='not-same variant' ocr='" + item.ocr + "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
+            contentHtml += "<span contenteditable='false' class='not-same variant' ocr='" + item.ocr +
+              "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             variantCounts++;
         } else if (item.type == 'emptyline') {
-            contentHtml += "</li>";
+            //contentHtml += "</li>";
         }
     }
 
@@ -82,12 +101,14 @@ $(document).on('click', '.not-same', function (e) {
 
     // 设置异文提示信息
     setNotSameTips();
+    highlightBox($(this));
 });
 
 // 单击同文，显示当前span
 $(document).on('click', '.same', function () {
     $(".same").removeClass("current-span");
     $(this).addClass("current-span");
+    highlightBox($(this));
 });
 
 // 双击同文，设置可编辑
