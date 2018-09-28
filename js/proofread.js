@@ -235,4 +235,15 @@ $(document).on('click', '.btn-emptyplaces-hidden', function () {
     $(this).removeClass("btn-emptyplaces-hidden");
     $(this).addClass("btn-emptyplaces-show");
 });
-
+// 缩小画布
+$(document).on('click', '.btn-reduce', function () {
+  if ($.cut.data.ratio > 0.5) {
+    $.cut.setRatio($.cut.data.ratio * 0.9);
+  }
+});
+// 放大画布
+$(document).on('click', '.btn-enlarge', function () {
+  if ($.cut.data.ratio < 5) {
+    $.cut.setRatio($.cut.data.ratio * 1.5);
+  }
+});
