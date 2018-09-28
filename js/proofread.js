@@ -22,10 +22,21 @@ function setNotSameTips() {
 $(document).ready(function () {
     // 根据json生成html
     var contentHtml = "";
-    var diffCounts = 0;
-    var variantCounts = 0;
+    var diffCounts = 0, variantCounts = 0;
+    var curBlockNo = 0, curLineNo = 0;
     function genHtmlByJson(item) {
         var editable = 'false';
+        if (item.block_no != curBlockNo) {
+            if (item.block_no != 1) contentHtml += "</ul>";
+            contentHtml += "<ul class= 'block' id='block-" + item.block_no + "'>";
+            curBlockNo = item.block_no;
+        }
+        if (item.line_no != curLineNo) {
+            if (item.line_no != 1) contentHtml += "</li>";
+            var cls = item.type == 'emptyline' ? 'line emptyline' : 'line';
+            contentHtml += "<li class='" + cls + "'>";
+            curLineNo = item.line_no;
+        }
         if (item.type == 'same') {
             contentHtml += "<span contenteditable='" + editable + "' class='same' ocr='" + item.ocr + "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
         } else if (item.type == 'diff') {
@@ -35,20 +46,15 @@ $(document).ready(function () {
         } else if (item.type == 'variant') {
             contentHtml += "<span contenteditable='" + editable + "' class='not-same variant' ocr='" + item.ocr + "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             variantCounts++;
-        } else if (item.type == 'newline') {
-            contentHtml += "</li><li class='line'>";
+        } else if (item.type == 'emptyline') {
+            contentHtml += "</li>";
         }
     }
-    var bid = 1;
-    // console.log(cmpdata.blocks.length);
-    for (var i = 0; i < cmpdata.blocks.length; i++) {
-        var block = cmpdata.blocks[i];
-        contentHtml += "<ul class= 'block' id='block" + (i + 1) + "'><li class='line'>";
-        // console.log(block);
-        block.lines.forEach(genHtmlByJson);
-        contentHtml += "</li></ul>";
-    }
+
+    cmpdata.segments.forEach(genHtmlByJson);
+    contentHtml += "</li></ul>";
     $('#sutra-text').html(contentHtml);
+    
     // 设置异文提示信息
     $('#not-same-info').attr('title', '异文' + diffCounts + '，异体字' + variantCounts);
     setNotSameTips();
