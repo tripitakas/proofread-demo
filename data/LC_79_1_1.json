@@ -1,6 +1,7 @@
 cmpdata = {
 "page_code": "LC_79_1_1",
-"txt" : [
+"blocks" : [
+{"lines":[
 { "type":"same", "ocr":"大方廣佛華嚴經卷第一"},
 { "type":"diff", "ocr":"湯", "cmp":""},
 { "type":"newline"},
@@ -101,5 +102,4 @@ cmpdata = {
 { "type":"diff", "ocr":"睹无", "cmp":"覩無"},
 { "type":"same", "ocr":"所"},
 { "type":"newline"}
-]
-}
+]}]}

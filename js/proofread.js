@@ -21,7 +21,7 @@ function setNotSameTips() {
 
 $(document).ready(function () {
     // 根据json生成html
-    var contentHtml = "<ul><li class='line'>";
+    var contentHtml = "";
     var diffCounts = 0;
     var variantCounts = 0;
     function genHtmlByJson(item) {
@@ -39,8 +39,15 @@ $(document).ready(function () {
             contentHtml += "</li><li class='line'>";
         }
     }
-    cmpdata.txt.forEach(genHtmlByJson);
-    contentHtml += "</li></ul>"
+    var bid = 1;
+    // console.log(cmpdata.blocks.length);
+    for (var i = 0; i < cmpdata.blocks.length; i++) {
+        var block = cmpdata.blocks[i];
+        contentHtml += "<ul class= 'block' id='block" + (i + 1) + "'><li class='line'>";
+        // console.log(block);
+        block.lines.forEach(genHtmlByJson);
+        contentHtml += "</li></ul>";
+    }
     $('#sutra-text').html(contentHtml);
     // 设置异文提示信息
     $('#not-same-info').attr('title', '异文' + diffCounts + '，异体字' + variantCounts);
