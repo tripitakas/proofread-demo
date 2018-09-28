@@ -40,10 +40,10 @@ cmpdata = {
 {"lines":[
 { "type":"same", "ocr":"得度如此世界十方一切世界亦復如是"},
 { "type":"newline"},
+{ "type":"newline"},
+{ "type":"newline"},
+{ "type":"newline"},
 { "type":"same", "ocr":"大方廣佛華嚴經卷第二"},
-{ "type":"newline"},
-{ "type":"newline"},
-{ "type":"newline"},
 { "type":"newline"},
 { "type":"same", "ocr":"音释"},
 { "type":"newline"},
