@@ -1,5 +1,5 @@
 cmpdata = {
-"page_code": "LC_79_1_1",
+"page_code": "QL_24_31",
 "segments" : [
 { "block_no":1, "line_no":1, "type":"same", "ocr":"無量化佛 遍滿十方 闡揚如來 無盡法藏"},
 { "block_no":1, "line_no":2, "type":"diff", "ocr":"爾", "cmp":"軟"},
