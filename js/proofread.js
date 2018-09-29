@@ -6,15 +6,17 @@
 
 // 设置异文提示信息
 function setNotSameTips() {
+    var current = $('.current-not-same');
+    var notSameCount = $('.current-not-same').length;
+    var idx, counts;
+
     if ($('#variants').hasClass('variants-highlight')) {
-        var current = $('.current-not-same');
-        var idx = $('.current-not-same').length == 0 ? 0 : $('.pfread .right .not-same').index(current) + 1;
-        var counts = $('.pfread .right .not-same').length;
+        idx = notSameCount === 0 ? 0 : $('.pfread .right .not-same').index(current) + 1;
+        counts = $('.pfread .right .not-same').length;
         $('#not-same-info').text(idx + ' / ' + counts);
     } else {
-        var current = $('.current-not-same');
-        var idx = $('.current-not-same').length == 0 ? 0 : $('.pfread .right .diff').index(current) + 1;
-        var counts = $('.pfread .right .diff').length;
+        idx = notSameCount === 0 ? 0 : $('.pfread .right .diff').index(current) + 1;
+        counts = $('.pfread .right .diff').length;
         $('#not-same-info').text(idx + ' / ' + counts);
     }
 }
@@ -40,35 +42,35 @@ $(document).ready(function () {
 
     function genHtmlByJson(item) {
         var cls;
-        if (item.block_no != curBlockNo) {
-            if (item.block_no != 1) {
+        if (item.block_no !== curBlockNo) {
+            if (item.block_no !== 1) {
                 contentHtml += "</ul>";
             }
             contentHtml += "<ul class= 'block' id='block-" + item.block_no + "'>";
             curBlockNo = item.block_no;
             adjustLineNo = 0;
         }
-        if (item.line_no != curLineNo) {
-            if (item.line_no != 1) {
+        if (item.line_no !== curLineNo) {
+            if (item.line_no !== 1) {
                 contentHtml += "</li>";
             }
-            cls = item.type == 'emptyline' ? 'line emptyline' : 'line';
+            cls = item.type === 'emptyline' ? 'line emptyline' : 'line';
             contentHtml += "<li class='" + cls + "' id='line-" + (item.line_no - adjustLineNo) + "'>";
             curLineNo = item.line_no;
         }
-        if (item.type == 'same') {
+        if (item.type === 'same') {
             contentHtml += "<span contenteditable='false' class='same' ocr='" + item.ocr +
               "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
-        } else if (item.type == 'diff') {
-            cls = item.ocr == '' ? 'not-same diff emptyplace' : 'not-same diff';
+        } else if (item.type === 'diff') {
+            cls = item.ocr === '' ? 'not-same diff emptyplace' : 'not-same diff';
             contentHtml += "<span contenteditable='false' class='" + cls + "' ocr='" + item.ocr +
               "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             diffCounts++;
-        } else if (item.type == 'variant') {
+        } else if (item.type === 'variant') {
             contentHtml += "<span contenteditable='false' class='not-same variant' ocr='" + item.ocr +
               "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             variantCounts++;
-        } else if (item.type == 'emptyline') {
+        } else if (item.type === 'emptyline') {
             adjustLineNo++;
         }
     }
@@ -85,8 +87,9 @@ $(document).ready(function () {
 // 单击异文
 $(document).on('click', '.not-same', function (e) {
     // 如果是异体字且当前异体字状态是隐藏，则直接返回
-    if ($(this).hasClass('variant') && !$(this).hasClass('variant-highlight'))
+    if ($(this).hasClass('variant') && !$(this).hasClass('variant-highlight')) {
         return;
+    }
     $("#pfread-dialog-cmp").text($(this).attr("cmp"));
     $("#pfread-dialog-ocr").text($(this).attr("ocr"));
     $("#pfread-dialog-slct").text("");
@@ -159,15 +162,19 @@ $(document).on('click', '#pfread-dialog-ocr, #pfread-dialog-cmp', function () {
 // -- 导航条 --
 // 上一条异文
 $(document).on('click', '.btn-previous', function () {
+    var current = $('.current-not-same');
+    var idx;
     if ($('#variants').hasClass('variants-highlight')) {
-        var current = $('.current-not-same');
-        var idx = $('.pfread .right .not-same').index(current);
-        if (idx < 1) return;
+        idx = $('.pfread .right .not-same').index(current);
+        if (idx < 1) {
+            return;
+        }
         $('.pfread .right .not-same').eq(idx - 1).click();
     } else {
-        var current = $('.current-not-same');
-        var idx = $('.pfread .right .diff').index(current);
-        if (idx < 1) return;
+        idx = $('.pfread .right .diff').index(current);
+        if (idx < 1) {
+            return;
+        }
         $('.pfread .right .diff').eq(idx - 1).click();
     }
     // 设置异文提示信息
@@ -177,13 +184,13 @@ $(document).on('click', '.btn-previous', function () {
 
 // 下一条异文
 $(document).on('click', '.btn-next', function () {
+    var current = $('.current-not-same');
+    var idx;
     if ($('#variants').hasClass('variants-highlight')) {
-        var current = $('.current-not-same');
-        var idx = $('.pfread .right .not-same').index(current);
+        idx = $('.pfread .right .not-same').index(current);
         $('.pfread .right .not-same').eq(idx + 1).click();
     } else {
-        var current = $('.current-not-same');
-        var idx = $('.pfread .right .diff').index(current);
+        idx = $('.pfread .right .diff').index(current);
         $('.pfread .right .diff').eq(idx + 1).click();
     }
     // 设置异文提示信息
@@ -192,12 +199,12 @@ $(document).on('click', '.btn-next', function () {
 
 // 删除该行
 $(document).on('click', '.btn-deleteline', function () {
-    if ($('.current-span').length == 0) {
+    if ($('.current-span').length === 0) {
         return;
     }
-    $currentLine = $(".current-span").parent(".line");
+    var $currentLine = $(".current-span").parent(".line");
     $currentLine.fadeOut(500).fadeIn(500);
-    if ($currentLine.text().trim() == '') {
+    if ($currentLine.text().trim() === '') {
         setTimeout(function () { $currentLine.remove() }, 1100);
     } else {
         setTimeout(function () { $currentLine.addClass('delete') }, 1100);
@@ -206,10 +213,10 @@ $(document).on('click', '.btn-deleteline', function () {
 
 // 向上增行
 $(document).on('click', '.btn-addupline', function (e) {
-    if ($('.current-span').length == 0) {
+    if ($('.current-span').length === 0) {
         return;
     }
-    $currentLine = $(".current-span").parent(".line");
+    var $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
     var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.before(newline);
@@ -218,10 +225,10 @@ $(document).on('click', '.btn-addupline', function (e) {
 
 // 向下增行
 $(document).on('click', '.btn-adddownline', function (e) {
-    if ($('.current-span').length == 0) {
+    if ($('.current-span').length === 0) {
         return;
     }
-    $currentLine = $(".current-span").parent(".line");
+    var $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
     var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.after(newline);
