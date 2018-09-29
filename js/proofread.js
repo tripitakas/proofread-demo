@@ -28,16 +28,20 @@ function highlightBox($span, ocr, cmp) {
     var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
     var offset = getCursortPosition($span[0]) + parseInt($span.attr('offset'));
 
-    // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框，或按字序号匹配
+    // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框
     var boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
         return ch === ocr || ch === cmp;
     });
-    if (boxes.length !== 1) {
-        boxes = $.cut.findCharsByLine(block_no, line_no);
-        boxes = offset < boxes.length ? boxes.slice(offset) : [];
-    }
 
     $.cut.toggleBox(false);
+    if (boxes.length !== 1) {
+        // 无法精确匹配，就按字序号匹配，并显示整列字框
+        boxes = $.cut.findCharsByLine(block_no, line_no);
+        boxes.forEach(function(box) {
+            $(box.shape.node).show();
+        });
+        boxes = offset < boxes.length ? boxes.slice(offset) : [];
+    }
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
 }
 
