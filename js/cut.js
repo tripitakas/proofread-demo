@@ -217,31 +217,41 @@
 
     scrollToVisible: function(el, ms) {
       var self = this;
-      var bound = data.holder.getBoundingClientRect();
-      var box = el.getBBox();
-      var win = data.scrollContainer || $(window);
+      var bound = data.holder.getBoundingClientRect();  // 画布相对于视口的坐标范围，减去滚动原点
+      var box = el.getBBox();                           // 字框相对于画布的坐标范围
+      var win = data.scrollContainer || $(window);      // 有滚动条的画布容器窗口
       var st = win.scrollTop(), sl = win.scrollLeft(), w = win.innerWidth(), h = win.innerHeight();
       var scroll = 0;
 
-      var offsetUp = box.y + box.height + bound.y - h + 10;
-      var offsetDown = box.y + bound.y + (box.y - st);
-      var offsetLeft = box.x + box.width + bound.x - w + 10;
-      var offsetRight = box.x + bound.x + (box.x - sl);
+      if (data.scrollContainer) {
+        var parentRect = data.scrollContainer[0].getBoundingClientRect();
+        bound.y -= parentRect.y;
+        bound.x -= parentRect.x;
+      }
 
-      if (offsetUp > 0) {
-        st += offsetUp;
+      var boxBottom = box.y + box.height + bound.y + 10 + st;
+      var boxTop = box.y + bound.y - 10 + st;
+      var boxRight = box.x + box.width + bound.x + 10 + sl;
+      var boxLeft = box.x + bound.x - 10 + sl;
+
+      // 字框的下边缘在可视区域下面，就向上滚动
+      if (boxBottom - st > h) {
+        st = boxBottom - h;
         scroll++;
       }
-      else if (offsetDown < 0) {
-        st += offsetDown;
+      // 字框的上边缘在可视区域上面，就向下滚动
+      else if (boxTop < st) {
+        st = boxTop;
         scroll++;
       }
-      if (offsetLeft > 0) {
-        sl += offsetLeft;
+      // 字框的右边缘在可视区域右侧，就向左滚动
+      if (boxRight - sl > w) {
+        sl = boxRight - w;
         scroll++;
       }
-      else if (offsetRight < 0) {
-        sl += offsetRight;
+      // 字框的左边缘在可视区域左面，就向右滚动
+      else if (boxLeft < sl) {
+        sl = boxLeft;
         scroll++;
       }
       if (scroll) {

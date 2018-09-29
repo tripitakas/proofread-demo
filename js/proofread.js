@@ -36,6 +36,8 @@ $(document).ready(function () {
     var contentHtml = "";
     var diffCounts = 0, variantCounts = 0;
     var curBlockNo = 0, curLineNo = 0;
+    var adjustLineNo = 0;
+
     function genHtmlByJson(item) {
         var cls;
         if (item.block_no != curBlockNo) {
@@ -44,13 +46,14 @@ $(document).ready(function () {
             }
             contentHtml += "<ul class= 'block' id='block-" + item.block_no + "'>";
             curBlockNo = item.block_no;
+            adjustLineNo = 0;
         }
         if (item.line_no != curLineNo) {
             if (item.line_no != 1) {
                 contentHtml += "</li>";
             }
             cls = item.type == 'emptyline' ? 'line emptyline' : 'line';
-            contentHtml += "<li class='" + cls + "' id='line-" + item.line_no + "'>";
+            contentHtml += "<li class='" + cls + "' id='line-" + (item.line_no - adjustLineNo) + "'>";
             curLineNo = item.line_no;
         }
         if (item.type == 'same') {
@@ -66,7 +69,7 @@ $(document).ready(function () {
               "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
             variantCounts++;
         } else if (item.type == 'emptyline') {
-            //contentHtml += "</li>";
+            adjustLineNo++;
         }
     }
 
