@@ -477,9 +477,9 @@
 
     findCharById: findCharById,
 
-    findCharsByLine: function(block_no, line_no, char_no) {
+    findCharsByLine: function(block_no, line_no, cmp) {
       return data.chars.filter(function(box) {
-        return box.block_no === block_no && box.line_no === line_no && (!char_no || box.char_no === char_no);
+        return box.block_no === block_no && box.line_no === line_no && (!cmp || cmp(box.ch));
       });
     },
 

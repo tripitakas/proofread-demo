@@ -22,15 +22,50 @@ function setNotSameTips() {
 }
 
 // 高亮一行中字组元素对应的字框
-function highlightBox($span) {
+function highlightBox($span, ocr, cmp) {
     var $line = $span.parent(), $block = $line.parent();
     var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
     var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
-    var char_no;
-    var boxes = $.cut.findCharsByLine(block_no, line_no, char_no);
+    var offset = getCursortPosition($span[0]) + parseInt($span.attr('offset'));
+
+    // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框，或按字序号匹配
+    var boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
+        return ch === ocr || ch === cmp;
+    });
+    if (boxes.length !== 1) {
+        boxes = $.cut.findCharsByLine(block_no, line_no);
+        boxes = offset < boxes.length ? boxes.slice(offset) : [];
+    }
 
     $.cut.toggleBox(false);
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
+}
+
+// 获取当前光标位置
+function getCursortPosition(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel, range, preCaretRange;
+
+    if (typeof win.getSelection !== 'undefined') {      // 谷歌、火狐
+        sel = win.getSelection();
+        if (sel.rangeCount > 0) {                       // 选中的区域
+            range = win.getSelection().getRangeAt(0);
+            caretOffset = range.startOffset;
+            // preCaretRange = range.cloneRange();         // 克隆一个选中区域
+            // preCaretRange.selectNodeContents(element);  // 设置选中区域的节点内容为当前节点
+            // preCaretRange.setEnd(range.endContainer, range.endOffset);  // 重置选中区域的结束位置
+            // caretOffset = preCaretRange.toString().length;
+        }
+    } else if ((sel = doc.selection) && sel.type !== 'Control') {    // IE
+        range = sel.createRange();
+        preCaretRange = doc.body.createTextRange();
+        preCaretRange.moveToElementText(element);
+        preCaretRange.setEndPoint('EndToEnd', range);
+        caretOffset = preCaretRange.text.length;
+    }
+    return caretOffset;
 }
 
 $(document).ready(function () {
@@ -38,7 +73,7 @@ $(document).ready(function () {
     var contentHtml = "";
     var diffCounts = 0, variantCounts = 0;
     var curBlockNo = 0, curLineNo = 0;
-    var adjustLineNo = 0;
+    var adjustLineNo = 0, offset = 0;
 
     function genHtmlByJson(item) {
         var cls;
@@ -57,22 +92,24 @@ $(document).ready(function () {
             cls = item.type === 'emptyline' ? 'line emptyline' : 'line';
             contentHtml += "<li class='" + cls + "' id='line-" + (item.line_no - adjustLineNo) + "'>";
             curLineNo = item.line_no;
+            offset = 0;
         }
         if (item.type === 'same') {
-            contentHtml += "<span contenteditable='false' class='same' ocr='" + item.ocr +
-              "' cmp='" + item.ocr + "'>" + item.ocr + "</span>";
+            contentHtml += "<span contentEditable='false' class='same' ocr='" + item.ocr +
+              "' cmp='" + item.ocr + "' offset=" + offset + ">" + item.ocr + "</span>";
         } else if (item.type === 'diff') {
             cls = item.ocr === '' ? 'not-same diff emptyplace' : 'not-same diff';
-            contentHtml += "<span contenteditable='false' class='" + cls + "' ocr='" + item.ocr +
-              "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
+            contentHtml += "<span contentEditable='false' class='" + cls + "' ocr='" + item.ocr +
+              "' cmp='" + item.cmp + "' offset=" + offset + ">" + item.ocr + "</span>";
             diffCounts++;
         } else if (item.type === 'variant') {
-            contentHtml += "<span contenteditable='false' class='not-same variant' ocr='" + item.ocr +
-              "' cmp='" + item.cmp + "'>" + item.ocr + "</span>";
+            contentHtml += "<span contentEditable='false' class='not-same variant' ocr='" + item.ocr +
+              "' cmp='" + item.cmp + "' offset=" + offset + ">" + item.ocr + "</span>";
             variantCounts++;
         } else if (item.type === 'emptyline') {
             adjustLineNo++;
         }
+        offset += item.ocr ? item.ocr.length : 0;
     }
 
     cmpdata.segments.forEach(genHtmlByJson);
@@ -86,6 +123,9 @@ $(document).ready(function () {
 
 // 单击异文
 $(document).on('click', '.not-same', function (e) {
+    e.stopPropagation();
+    highlightBox($(this), $(this).attr('ocr'), $(this).attr('cmp'));
+
     // 如果是异体字且当前异体字状态是隐藏，则直接返回
     if ($(this).hasClass('variant') && !$(this).hasClass('variant-highlight')) {
         return;
@@ -95,19 +135,17 @@ $(document).on('click', '.not-same', function (e) {
     $("#pfread-dialog-slct").text("");
     $("#pfread-dialog").offset({ top: $(this).offset().top + 40, left: $(this).offset().left - 4 });
     $("#pfread-dialog").show();
-    e.stopPropagation();
 
     // 设置当前异文
     $('.not-same').removeClass('current-not-same');
     $(this).addClass('current-not-same');
 
     // 隐藏当前可编辑同文
-    $(".current-span").attr("contenteditable", "false");
+    $(".current-span").attr("contentEditable", "false");
     $(".current-span").removeClass("current-span");
 
     // 设置异文提示信息
     setNotSameTips();
-    highlightBox($(this));
 });
 
 // 单击同文，显示当前span
@@ -119,8 +157,8 @@ $(document).on('click', '.same', function () {
 
 // 双击同文，设置可编辑
 $(document).on('dblclick', '.same', function () {
-    $(".same").attr("contenteditable", "false");
-    $(this).attr("contenteditable", "true");
+    $(".same").attr("contentEditable", "false");
+    $(this).attr("contentEditable", "true");
 });
 
 
@@ -135,7 +173,7 @@ $(document).on('click', '.pfread .right .bd', function (e) {
     // 取消当前可编辑同文 
     var _con2 = $('.current-span');
     if (!_con2.is(e.target) && _con2.has(e.target).length === 0) {
-        $(".current-span").attr("contenteditable", "false");
+        $(".current-span").attr("contentEditable", "false");
         $(".current-span").removeClass("current-span");
     }
 });
@@ -213,26 +251,26 @@ $(document).on('click', '.btn-deleteline', function () {
 
 // 向上增行
 $(document).on('click', '.btn-addupline', function (e) {
+    e.stopPropagation();
     if ($('.current-span').length === 0) {
         return;
     }
     var $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
-    var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
+    var newline = "<li class='line'><span contentEditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.before(newline);
-    e.stopPropagation();
 });
 
 // 向下增行
 $(document).on('click', '.btn-adddownline', function (e) {
+    e.stopPropagation();
     if ($('.current-span').length === 0) {
         return;
     }
     var $currentLine = $(".current-span").parent(".line");
     $(".current-span").removeClass("current-span");
-    var newline = "<li class='line'><span contenteditable='true' class='same add current-span'>&nbsp;</span></lis>";
+    var newline = "<li class='line'><span contentEditable='true' class='same add current-span'>&nbsp;</span></lis>";
     $currentLine.after(newline);
-    e.stopPropagation();
 });
 
 // 隐藏异体字
