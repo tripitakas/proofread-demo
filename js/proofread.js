@@ -22,11 +22,14 @@ function setNotSameTips() {
 }
 
 // 高亮一行中字组元素对应的字框
-function highlightBox($span, ocr, cmp) {
+function highlightBox($span, first) {
     var $line = $span.parent(), $block = $line.parent();
     var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
     var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
-    var offset = getCursortPosition($span[0]) + parseInt($span.attr('offset'));
+    var offset0 = first ? 0 : getCursortPosition($span[0]);
+    var offset = offset0 + parseInt($span.attr('offset'));
+    var ocr = ($span.attr('ocr') || '')[offset0];
+    var cmp = ($span.attr('cmp') || '')[offset0];
 
     // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框
     var boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
@@ -128,7 +131,7 @@ $(document).ready(function () {
 // 单击异文
 $(document).on('click', '.not-same', function (e) {
     e.stopPropagation();
-    highlightBox($(this), $(this).attr('ocr'), $(this).attr('cmp'));
+    highlightBox($(this), true);
 
     // 如果是异体字且当前异体字状态是隐藏，则直接返回
     if ($(this).hasClass('variant') && !$(this).hasClass('variant-highlight')) {
