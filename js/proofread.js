@@ -35,15 +35,30 @@ function highlightBox($span, first) {
     var boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
         return ch === ocr || ch === cmp;
     });
+    // 行内多字能匹配时就取位置最接近，不亮显整列
+    if (boxes.length > 1) {
+        var minNo = 10;
+        $.cut.findCharsByLine(block_no, line_no, function(ch, box) {
+            if (ch === ocr || ch === cmp) {
+                if (minNo > Math.abs(offset + 1 - box.char_no)) {
+                    minNo = Math.abs(offset + 1 - box.char_no);
+                    boxes[0] = box;
+                }
+            }
+        });
+    }
 
     $.cut.toggleBox(false);
-    if (boxes.length !== 1) {
+    if (!boxes.length) {
         // 无法精确匹配，就按字序号匹配，并显示整列字框
-        boxes = $.cut.findCharsByLine(block_no, line_no);
-        boxes.forEach(function(box) {
-            $(box.shape.node).show();
-        });
+        var all = boxes = $.cut.findCharsByLine(block_no, line_no);
         boxes = offset < boxes.length ? boxes.slice(offset) : [];
+        if (!boxes.length || boxes[0].ch !== ocr && boxes[0].ch !== cmp) {
+            console.log('box: ' + (boxes.length && boxes[0].ch) + 'ocr: ' + ocr + 'cmp: ' + cmp);
+            all.forEach(function(box) {
+                $(box.shape.node).show();
+            });
+        }
     }
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
 }
