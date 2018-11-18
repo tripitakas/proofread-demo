@@ -137,21 +137,25 @@
   <script src="./js/jquery-latest.js" type="text/javascript"></script>
   <script src="./js/raphael.js" type="text/javascript"></script>
   <script src="./js/raphael.zoom.js" type="text/javascript"></script>
-  <script src="./js/cut.js?v=9301" type="text/javascript"></script>
+  <script src="./js/jquery.mapkey.js" type="text/javascript"></script>
+  <script src="./js/cut.js?v=1118" type="text/javascript"></script>
+  <script src="./js/proof_keys.js?v=1118" type="text/javascript"></script>
   <script src="data/QL_24_31.js" type="text/javascript"></script>
   <script src="data/QL_24_31.cut.js" type="text/javascript"></script>
-  <script src="./js/proofread.js?v=9301" type="text/javascript"></script>
+  <script src="./js/proofread.js?v=1118" type="text/javascript"></script>
 
   <script>
     $.cut.create({
       readonly: true,
       scrollContainer: '#canvas-bd',
+      name: 'QL_24_31',
       width: 1200,
       height: 1670,
       holder: 'canvas-pane',
       image: 'data/QL_24_31.jpg',
       chars: cutdata.char_data
     });
+    $.cut.bindKeys();
     $.cut.toggleBox(false);
     $.cut.switchCurrentBox(null);
   </script>
