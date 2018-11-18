@@ -49,9 +49,11 @@ function highlightBox($span, first) {
     }
 
     $.cut.toggleBox(false);
+    $.cut.removeBandNumber();
+
+    var all = boxes = $.cut.findCharsByLine(block_no, line_no);
     if (!boxes.length) {
         // 无法精确匹配，就按字序号匹配，并显示整列字框
-        var all = boxes = $.cut.findCharsByLine(block_no, line_no);
         boxes = offset < boxes.length ? boxes.slice(offset) : [];
         if (!boxes.length || boxes[0].ch !== ocr && boxes[0].ch !== cmp) {
             console.log('box: ' + (boxes.length && boxes[0].ch) + 'ocr: ' + ocr + 'cmp: ' + cmp);
@@ -60,6 +62,9 @@ function highlightBox($span, first) {
             });
         }
     }
+    all.forEach(function(box, i) {
+        $.cut.showBandNumber(box, i + 1);
+    });
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
 }
 

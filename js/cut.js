@@ -281,6 +281,7 @@
         state.hoverHandle.index = -1;
         state.hoverStroke = box.attr('stroke');
         state.hoverHandle.fill = box.attr('fill');
+        state.hoverHandle.hidden = box.node.style.display === 'none';
         box.attr({
           stroke: rgb_a(data.hoverColor, data.boxOpacity)
         });
@@ -291,9 +292,15 @@
       if (box && state.hover === box && state.hoverHandle.fill) {
         box.attr({ stroke: state.hoverStroke, fill: state.hoverHandle.fill });
         state.hoverHandle.fill = 0;   // 设置此标志，暂不清除 box 变量，以便在框外也可点控制点
+        if (state.hoverHandle.hidden) {
+          box.hide();
+        }
       }
       else if (box && state.edit === box && state.editHandle.fill) {
         box.attr({ stroke: state.editStroke, fill: state.editHandle.fill });
+        if (state.editHandle.hidden) {
+          box.hide();
+        }
         state.editHandle.fill = 0;
       }
     },
@@ -365,11 +372,12 @@
       if (el) {
         state.editStroke = el.attr('stroke');
         state.editHandle.fill = el.attr('fill');
+        state.editHandle.hidden = el.node.style.display === 'none';
         el.attr({
           stroke: rgb_a(data.changedColor, data.boxOpacity),
           fill: rgb_a(data.hoverFill, data.activeFillOpacity)
         });
-        $(el.node).toggle(true);
+        el.show();
         this.scrollToVisible(el);
       }
       this.showHandles(state.edit, state.editHandle);
@@ -439,7 +447,7 @@
         }
 
         // 不能拖动当前字框的控制点，则画出一个新字框
-        if (!state.edit) {
+        if (!state.edit && !state.readonly) {
           state.editHandle.index = 2;  // 右下角为拖动位置
           state.edit = createRect(state.down, state.down, true);
         }
@@ -449,7 +457,7 @@
         var pt = getPoint(e);
 
         e.preventDefault();
-        if (!state.originBox && getDistance(pt, state.downOrigin) < 3) {
+        if (state.readonly || !state.originBox && getDistance(pt, state.downOrigin) < 3) {
           return;
         }
 
@@ -495,14 +503,12 @@
       }
       data.ratioInitial = ($(data.holder).width() - 20) / p.width;
       data.scrollContainer = p.scrollContainer && $(p.scrollContainer);
-      if (!p.readonly) {
-        $(data.holder)
-          .mousedown(mouseDown)
-          .mouseup(mouseUp)
-          .mousemove(function(e) {
-            (state.down ? mouseDrag : mouseHover)(e);
-          });
-      }
+      $(data.holder)
+        .mousedown(mouseDown)
+        .mouseup(mouseUp)
+        .mousemove(function(e) {
+          (state.down ? mouseDrag : mouseHover)(e);
+        });
 
       var xMin = 1e5, yMin= 1e5, leftTop = null;
 
@@ -647,7 +653,7 @@
           pt.y < box.y + box.height + tol;
       };
 
-      if (state.edit && (isInRect(state.edit, 10) || lockBox)) {
+      if (state.edit && (isInRect(state.edit, state.readonly ? 1 : 10) || lockBox)) {
         return state.edit;
       }
       for (i = 0; i < data.chars.length; i++) {
@@ -698,6 +704,9 @@
           stroke: state.editStroke,
           fill: state.editHandle.fill
         });
+        if (state.editHandle.hidden) {
+          state.edit.hide();
+        }
         state.editHandle.fill = 0;
       }
       state.down = null;
@@ -734,6 +743,40 @@
         var newBox = createRect({x: box.x + dx, y: box.y + dy},
           {x: box.x + box.width + dx, y: box.y + box.height + dy});
         return this._changeBox(null, newBox);
+      }
+    },
+
+    showBandNumber: function (char, num) {
+      var el = char && char.shape;
+      var box = el && el.getBBox();
+
+      if (!box) {
+        return;
+      }
+      var x = box.x + box.width + 7;
+      var y = box.y + box.height / 2;
+      data.texts = data.texts || {};
+      data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
+            data.paper.circle(x, y, 7)
+                .attr({fill: 'rgba(0,255,0,.4)'}),
+            data.paper.text(x, y, '' + num)
+                .attr({'font-size': 11, 'text-align': 'center'})];
+    },
+
+    removeBandNumber: function (char) {
+      if (!char) {
+        return data.chars.forEach(function (c) {
+          if (c.shape) {
+            $.cut.removeBandNumber(c);
+          }
+        });
+      }
+      var arr = char.shape && (data.texts || {})[char.shape.data('cid')];
+      if (arr) {
+        delete data.texts[char.shape.data('cid')];
+        arr.forEach(function (p) {
+          p.remove();
+        });
       }
     },
 
