@@ -22,6 +22,11 @@
       on('down', function() {
         self.navigate('down');
       });
+
+      self.onBoxChanged(function(info, box, reason) {
+        $('#order').val(box && info.shape.data('order') || '');
+        $('#char').val(box && info.shape.data('char') || '');
+      });
     }
   });
 }());

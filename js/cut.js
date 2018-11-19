@@ -684,6 +684,7 @@
       });
     },
 
+    // callback: function(info, box, reason)
     onBoxChanged: function(callback) {
       data.boxObservers.push(callback);
     },
@@ -746,7 +747,7 @@
       }
     },
 
-    showBandNumber: function (char, num) {
+    showBandNumber: function (char, num, text) {
       var el = char && char.shape;
       var box = el && el.getBBox();
 
@@ -760,7 +761,13 @@
             data.paper.circle(x, y, 7)
                 .attr({fill: 'rgba(0,255,0,.4)'}),
             data.paper.text(x, y, '' + num)
-                .attr({'font-size': 11, 'text-align': 'center'})];
+                .attr({'font-size': 11, 'text-align': 'center'}),
+          data.paper.rect(x + 8, y - 9, 28, 18)
+                .attr({fill: 'rgba(255,255,255,.9)', stroke: 'rgba(0,255,0,.8)'}),
+            data.paper.text(x + 8 + 14, y, text || '')
+                .attr({'font-size': 16, 'text-align': 'center', 'font-weight': 300, stroke: '#f0f'})];
+      el.data('order', num);
+      el.data('text', text);
     },
 
     removeBandNumber: function (char) {
@@ -771,12 +778,15 @@
           }
         });
       }
-      var arr = char.shape && (data.texts || {})[char.shape.data('cid')];
+      var el = char.shape;
+      var arr = el && (data.texts || {})[el.data('cid')];
       if (arr) {
         delete data.texts[char.shape.data('cid')];
         arr.forEach(function (p) {
           p.remove();
         });
+        el.removeData('order');
+        el.removeData('text');
       }
     },
 

@@ -63,7 +63,7 @@ function highlightBox($span, first) {
         }
     }
     all.forEach(function(box, i) {
-        $.cut.showBandNumber(box, i + 1);
+        $.cut.showBandNumber(box, i + 1, box.ch);
     });
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
 }
