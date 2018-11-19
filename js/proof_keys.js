@@ -25,7 +25,12 @@
 
       self.onBoxChanged(function(info, box, reason) {
         $('#order').val(box && info.shape.data('order') || '');
-        $('#char').val(box && info.shape.data('char') || '');
+        $('#char').val(box && (info.shape.data('text') || info.shape.data('char')) || '');
+      });
+
+      $('#change-order').click(function () {
+        var order = parseInt($('#order').val());
+        var char = $('#char').val();
       });
     }
   });
