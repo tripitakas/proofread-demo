@@ -770,9 +770,9 @@
       el.data('text', text);
     },
 
-    removeBandNumber: function (char) {
+    removeBandNumber: function (char, all) {
       if (!char) {
-        return data.chars.forEach(function (c) {
+        return all && data.chars.forEach(function (c) {
           if (c.shape) {
             $.cut.removeBandNumber(c);
           }
@@ -785,9 +785,17 @@
         arr.forEach(function (p) {
           p.remove();
         });
+        var text = el.data('text');
         el.removeData('order');
         el.removeData('text');
+        return text;
       }
+    },
+
+    findCharByData: function(key, value) {
+      return value && data.chars.filter(function (box) {
+        return box.shape && box.shape.data(key) === value;
+      })[0];
     },
 
     navigate: function(direction) {

@@ -49,7 +49,7 @@ function highlightBox($span, first) {
     }
 
     $.cut.toggleBox(false);
-    $.cut.removeBandNumber();
+    $.cut.removeBandNumber(0, true);
 
     var all = boxes = $.cut.findCharsByLine(block_no, line_no);
     if (!boxes.length) {
