@@ -754,18 +754,18 @@
       if (!box || !num || !text) {
         return;
       }
-      var x = box.x + box.width + 7;
+      var x = box.x + box.width + 8;
       var y = box.y + box.height / 2;
       data.texts = data.texts || {};
       data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
-            data.paper.circle(x, y, 7)
-                .attr({fill: 'rgba(0,255,0,.4)'}),
-            data.paper.text(x, y, '' + num)
-                .attr({'font-size': 11, 'text-align': 'center'}),
-          data.paper.rect(x + 8, y - 9, 28, 18)
-                .attr({fill: 'rgba(255,255,255,.9)', stroke: 'rgba(0,255,0,.8)'}),
-            data.paper.text(x + 8 + 14, y, text)
-                .attr({'font-size': 16, 'text-align': 'center', 'font-weight': 300, stroke: '#f0f'})];
+          data.paper.circle(x, y, 7)
+            .attr({fill: 'rgba(0,255,0,.3)', stroke: 'rgba(0,0,0,.4)'}),
+          data.paper.text(x, y, '' + num)
+            .attr({'font-size': 11, 'text-align': 'center'}),
+          data.paper.rect(x + 20, y - 9, 20, 18)
+            .attr({fill: 'rgba(255,255,255,.5)', stroke: 'rgba(0,255,0,.6)'}),
+          data.paper.text(x + 20 + 10, y, text)
+            .attr({'font-size': 16, 'text-align': 'center', 'font-weight': 300, stroke: '#00f'})];
       el.data('order', num);
       el.data('text', text);
     },
