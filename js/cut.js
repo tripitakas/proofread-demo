@@ -751,7 +751,7 @@
       var el = char && char.shape;
       var box = el && el.getBBox();
 
-      if (!box) {
+      if (!box || !num || !text) {
         return;
       }
       var x = box.x + box.width + 7;
@@ -764,7 +764,7 @@
                 .attr({'font-size': 11, 'text-align': 'center'}),
           data.paper.rect(x + 8, y - 9, 28, 18)
                 .attr({fill: 'rgba(255,255,255,.9)', stroke: 'rgba(0,255,0,.8)'}),
-            data.paper.text(x + 8 + 14, y, text || '')
+            data.paper.text(x + 8 + 14, y, text)
                 .attr({'font-size': 16, 'text-align': 'center', 'font-weight': 300, stroke: '#f0f'})];
       el.data('order', num);
       el.data('text', text);
