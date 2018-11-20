@@ -36,21 +36,23 @@
       $('#change-order').click(function () {
         var order = parseInt($('#order').val());
         var char = $('#char').val();
+        var info = oldChar[2];
 
-        if (order && char && oldChar[2]) {
+        if (order && char && info) {
           if (order === oldChar[0]) {
-            self.removeBandNumber(self.findCharByData('order', char));
-            self.showBandNumber(oldChar[2], order, char);
+            if (oldChar[1] !== char) {
+              self.removeBandNumber(info);
+              self.showBandNumber(info, order, char);
+            }
           } else {
-            var last = self.findCharByData('order', char);
+            var last = self.findCharByData('order', order);
             var oldText = last && self.removeBandNumber(last);
-
-            last = self.findCharByData('order', oldChar[0]);
-            if (last && oldText) {
+            if (oldText) {
               self.showBandNumber(last, oldChar[0], oldText);
             }
 
-            self.showBandNumber(oldChar[2], order, char);
+            self.removeBandNumber(info);
+            self.showBandNumber(info, order, char);
           }
         }
       });
