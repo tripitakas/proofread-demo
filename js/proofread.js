@@ -75,15 +75,18 @@ function highlightBox($span, first) {
     $.cut.removeBandNumber(0, true);
     $.cut.state.focus = false;
     $.fn.mapKey.enabled = false;
+    $.cut.data.block_no = block_no;
+    $.cut.data.line_no = line_no;
 
     // 按字序号浮动亮显当前行的字框
     text = $line.text();
     all = $.cut.findCharsByLine(block_no, line_no);
     all.forEach(function(box, i) {
+        box.char_no = i + 1;
         $.cut.showBandNumber(box, i + 1, text[i]);
     });
 
-    $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
+    $.cut.switchCurrentBox(((boxes.length ? boxes : all)[0] || {}).shape);
 }
 
 // 获取当前光标位置
