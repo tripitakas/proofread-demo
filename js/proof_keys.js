@@ -3,7 +3,7 @@
   'use strict';
 
   $.extend($.cut, {
-    bindKeys: function() {
+    bindMatchingKeys: function() {
       var self = this;
       var on = function(key, func) {
         $.mapKey(key, func, {direction: 'down'});
