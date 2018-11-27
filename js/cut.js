@@ -761,24 +761,25 @@
       if (!box || !num || !text) {
         return;
       }
-      var x = box.x + box.width + 8;
+      var s = data.ratio;
+      var x = box.x + box.width + 20 * s;
       var y = box.y + box.height / 2;
       data.texts = data.texts || {};
       data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
-          data.paper.circle(x, y, 7)
-            .attr({fill: 'rgba(0,255,0,.3)', stroke: 'rgba(0,0,0,.4)'}),
           data.paper.text(x, y, '' + num)
-            .attr({'font-size': 11, 'text-align': 'center'}),
-          data.paper.rect(x + 20, y - 9, 20, 18)
-            .attr({fill: 'rgba(255,255,255,.5)', stroke: 'rgba(0,255,0,.6)'}),
-          data.paper.text(x + 20 + 10, y, text)
-            .attr({'font-size': 16, 'text-align': 'center', 'font-weight': 300, stroke: '#00f'})];
+            .attr({'font-size': 11 * s, 'text-align': 'center'}),
+          data.paper.text(x + 15 * s, y, text)
+            .attr({'font-size': 18 * s, 'text-align': 'center', 'font-weight': 200, stroke: '#00f'})];
       el.data('order', num);
       el.data('text', text);
     },
 
     removeBandNumber: function (char, all) {
       if (!char) {
+        if (all && data.bandNumberBox) {
+          data.bandNumberBox.remove();
+          delete data.bandNumberBox;
+        }
         return all && data.chars.forEach(function (c) {
           if (c.shape) {
             $.cut.removeBandNumber(c);
@@ -798,6 +799,34 @@
         return text;
       }
     },
+
+    unionBandNumbers: function() {
+      if (data.bandNumberBox) {
+        data.bandNumberBox.remove();
+      }
+      var box, first;
+      data.chars.forEach(function (c) {
+        var arr = c.shape && data.texts[c.shape.data('cid')];
+        (arr || []).forEach(function(p) {
+          if (!box) {
+            box = p.getBBox();
+            first = p;
+          } else {
+            p = p.getBBox();
+            box.x = Math.min(box.x, p.x);
+            box.y = Math.min(box.y, p.y);
+            box.x2 = Math.max(box.x2, p.x2);
+            box.y2 = Math.max(box.y2, p.y2);
+          }
+        });
+      });
+      if (box && first) {
+        data.bandNumberBox = data.paper.rect(box.x, box.y - 5, box.x2 - box.x + 5, box.y2 - box.y + 10, 5)
+          .attr({fill: 'rgba(255,255,255,.8)', stroke: 'rgba(0,0,0,.5)'});
+        data.bandNumberBox.insertBefore(first);
+      }
+    },
+
 
     findCharByData: function(key, value) {
       return value && data.chars.filter(function (box) {

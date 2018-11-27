@@ -47,6 +47,7 @@
             if (oldChar[1] !== char) {    // 只改了字
               self.removeBandNumber(info);
               self.showBandNumber(info, order, char);
+              self.unionBandNumbers();
               applyChar(order, char);
             }
           } else {
@@ -66,6 +67,7 @@
             // 更新当前字框的关联信息
             self.removeBandNumber(info);
             self.showBandNumber(info, order, char);
+            self.unionBandNumbers();
             oldChar[0] = order;
             info.char_no = order;
             info.block_no = $.cut.data.block_no;

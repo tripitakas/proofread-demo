@@ -85,6 +85,7 @@ function highlightBox($span, first) {
         box.char_no = i + 1;
         $.cut.showBandNumber(box, i + 1, text[i]);
     });
+    $.cut.unionBandNumbers();
 
     $.cut.switchCurrentBox(((boxes.length ? boxes : all)[0] || {}).shape);
 }
