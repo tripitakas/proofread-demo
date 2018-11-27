@@ -425,6 +425,10 @@
           return;
         }
         state.downOrigin = state.down = getPoint(e);
+        state.focus = true;
+        if ($.fn.mapKey) {
+          $.fn.mapKey.enabled = true;
+        }
 
         // 鼠标略过控制点时，当前字框的控制点不能被选中，则切换为另外已亮显热点控制点的字框
         var lockBox = e.altKey;
@@ -491,6 +495,7 @@
 
       data.paper = Raphael(p.holder, p.width, p.height).initZoom();
       data.holder = document.getElementById(p.holder);
+      state.focus = true;
 
       data.image = data.paper.image(p.image, 0, 0, p.width, p.height);
       data.paper.rect(0, 0, p.width, p.height)

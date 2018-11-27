@@ -63,6 +63,10 @@
     .right .delete {
       display: none;
     }
+
+    .mismatch span {
+      border-bottom: 1px solid red;
+    }
   </style>
 
 </head>
@@ -198,7 +202,6 @@
     $('.btn-fullscrean').click(function() {
       var $modal = $('#cutModal');
       var bindings = $.fn.mapKey.bindings;
-      $.fn.mapKey.bindings = { up: {}, down: {}};
 
       $modal.modal().on('hidden.bs.modal', function() {
         $.fn.mapKey.bindings = bindings;

@@ -21,55 +21,73 @@ function setNotSameTips() {
     }
 }
 
+function findBestBoxes(offset, block_no, line_no, cmp) {
+    var minNo = 10;
+    var ret;
+    $.cut.findCharsByLine(block_no, line_no, function(ch, box) {
+        if (cmp(ch)) {
+            if (minNo > Math.abs(offset + 1 - box.char_no)) {
+                minNo = Math.abs(offset + 1 - box.char_no);
+                ret = box;
+            }
+        }
+    });
+}
+
 // 高亮一行中字组元素对应的字框
 function highlightBox($span, first) {
     var $line = $span.parent(), $block = $line.parent();
     var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
     var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
-    var offset0 = first ? 0 : getCursortPosition($span[0]);
-    var offset = offset0 + parseInt($span.attr('offset'));
-    var ocr = ($span.attr('ocr') || '')[offset0];
-    var cmp = ($span.attr('cmp') || '')[offset0];
+    var offset0 = parseInt($span.attr('offset'));
+    var offsetInSpan = first ? 0 : getCursorPosition($span[0]);
+    var offsetInLine = offsetInSpan + offset0;
+    var ocrCursor = ($span.attr('ocr') || '')[offsetInSpan];
+    var cmpCursor = ($span.attr('cmp') || '')[offsetInSpan];
+    var text = $span.text();
+    var i, chTmp, all;
 
     // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框
     var boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
-        return ch === ocr || ch === cmp;
+        return ch === ocrCursor || ch === cmpCursor;
     });
-    // 行内多字能匹配时就取位置最接近，不亮显整列
+    // 行内多字能匹配时就取char_no位置最接近的，不亮显整列
     if (boxes.length > 1) {
-        var minNo = 10;
-        $.cut.findCharsByLine(block_no, line_no, function(ch, box) {
-            if (ch === ocr || ch === cmp) {
-                if (minNo > Math.abs(offset + 1 - box.char_no)) {
-                    minNo = Math.abs(offset + 1 - box.char_no);
-                    boxes[0] = box;
-                }
-            }
-        });
+        boxes[0] = findBestBoxes(offsetInLine, block_no, line_no, function(ch) {
+              return ch === ocrCursor || ch === cmpCursor;
+          }) || boxes[0];
+    }
+    else if (!boxes.length) {   // 或者用span任意字精确匹配
+        for (i = 0; i < text.length && !boxes.length; i++) {
+            chTmp = text[i];
+            boxes = $.cut.findCharsByLine(block_no, line_no, function(ch) {
+                return ch === chTmp;
+            });
+        }
+        if (boxes.length > 1) {
+            boxes[0] = findBestBoxes(offsetInLine, block_no, line_no, function(ch) {
+                  return ch === chTmp;
+              }) || boxes[0];
+        }
     }
 
     $.cut.toggleBox(false);
     $.cut.removeBandNumber(0, true);
+    $.cut.state.focus = false;
+    $.fn.mapKey.enabled = false;
 
-    var all = boxes = $.cut.findCharsByLine(block_no, line_no);
-    if (!boxes.length) {
-        // 无法精确匹配，就按字序号匹配，并显示整列字框
-        boxes = offset < boxes.length ? boxes.slice(offset) : [];
-        if (!boxes.length || boxes[0].ch !== ocr && boxes[0].ch !== cmp) {
-            console.log('box: ' + (boxes.length && boxes[0].ch) + 'ocr: ' + ocr + 'cmp: ' + cmp);
-            all.forEach(function(box) {
-                $(box.shape.node).show();
-            });
-        }
-    }
+    // 按字序号浮动亮显当前行的字框
+    text = $line.text();
+    all = $.cut.findCharsByLine(block_no, line_no);
     all.forEach(function(box, i) {
-        $.cut.showBandNumber(box, i + 1, box.ch);
+        $.cut.showBandNumber(box, i + 1, text[i]);
     });
+
     $.cut.switchCurrentBox(boxes.length && boxes[0].shape);
 }
 
 // 获取当前光标位置
-function getCursortPosition(element) {
+function getCursorPosition(element) {
     var caretOffset = 0;
     var doc = element.ownerDocument || element.document;
     var win = doc.defaultView || doc.parentWindow;
@@ -101,6 +119,7 @@ $(document).ready(function () {
     var diffCounts = 0, variantCounts = 0;
     var curBlockNo = 0, curLineNo = 0;
     var adjustLineNo = 0, offset = 0;
+    var lineNos = [];
 
     function genHtmlByJson(item) {
         var cls;
@@ -120,6 +139,7 @@ $(document).ready(function () {
             contentHtml += "<li class='" + cls + "' id='line-" + (item.line_no - adjustLineNo) + "'>";
             curLineNo = item.line_no;
             offset = 0;
+            lineNos.push([curBlockNo, item.line_no - adjustLineNo]);
         }
         if (item.type === 'same') {
             contentHtml += "<span contentEditable='false' class='same' ocr='" + item.ocr +
@@ -146,6 +166,15 @@ $(document).ready(function () {
     // 设置异文提示信息
     $('#not-same-info').attr('title', '异文' + diffCounts + '，异体字' + variantCounts);
     setNotSameTips();
+
+    // 对字数不匹配的行加下划线
+    lineNos.forEach(function(no) {
+        var boxes = $.cut.findCharsByLine(no[0], no[1]);
+        var $line = $('#block-' + no[0] + ' #line-' + no[1]);
+        if (boxes.length != $line.text().length) {
+            $line.addClass('mismatch');
+        }
+    });
 });
 
 // 单击异文
