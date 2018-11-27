@@ -769,7 +769,7 @@
           data.paper.text(x, y, '' + num)
             .attr({'font-size': 11 * s, 'text-align': 'center'}),
           data.paper.text(x + 15 * s, y, text)
-            .attr({'font-size': 18 * s, 'text-align': 'center', 'font-weight': 200, stroke: '#00f'})];
+            .attr({'font-size': 17 * s, 'text-align': 'center', 'font-weight': 200, stroke: 'rgba(0,0,255,.7)'})];
       el.data('order', num);
       el.data('text', text);
     },
@@ -826,7 +826,6 @@
         data.bandNumberBox.insertBefore(first);
       }
     },
-
 
     findCharByData: function(key, value) {
       return value && data.chars.filter(function (box) {

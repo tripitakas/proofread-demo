@@ -44,7 +44,7 @@ function highlightBox($span, first) {
     var offsetInLine = offsetInSpan + offset0;
     var ocrCursor = ($span.attr('ocr') || '')[offsetInSpan];
     var cmpCursor = ($span.attr('cmp') || '')[offsetInSpan];
-    var text = $span.text();
+    var text = $span.text().replace(/\s/g, '');
     var i, chTmp, all;
 
     // 根据文字的栏列号匹配到字框的列，然后根据文字精确匹配列中的字框
@@ -79,7 +79,7 @@ function highlightBox($span, first) {
     $.cut.data.line_no = line_no;
 
     // 按字序号浮动亮显当前行的字框
-    text = $line.text();
+    text = $line.text().replace(/\s/g, '');
     all = $.cut.findCharsByLine(block_no, line_no);
     all.forEach(function(box, i) {
         box.char_no = i + 1;
@@ -117,13 +117,14 @@ function getCursorPosition(element) {
     return caretOffset;
 }
 
+var lineNos = [];
+
 $(document).ready(function () {
     // 根据json生成html
     var contentHtml = "";
     var diffCounts = 0, variantCounts = 0;
     var curBlockNo = 0, curLineNo = 0;
     var adjustLineNo = 0, offset = 0;
-    var lineNos = [];
 
     function genHtmlByJson(item) {
         var cls;
@@ -171,15 +172,19 @@ $(document).ready(function () {
     $('#not-same-info').attr('title', '异文' + diffCounts + '，异体字' + variantCounts);
     setNotSameTips();
 
-    // 对字数不匹配的行加下划线
-    lineNos.forEach(function(no) {
-        var boxes = $.cut.findCharsByLine(no[0], no[1]);
-        var $line = $('#block-' + no[0] + ' #line-' + no[1]);
-        if (boxes.length != $line.text().length) {
-            $line.addClass('mismatch');
-        }
-    });
+    checkMismatch();
 });
+
+// 对字数不匹配的行加下划线
+function checkMismatch() {
+  lineNos.forEach(function(no) {
+    var boxes = $.cut.findCharsByLine(no[0], no[1]);
+    var $line = $('#block-' + no[0] + ' #line-' + no[1]);
+    $line.toggleClass('mismatch', boxes.length != $line.text().replace(/\s/g, '').length);
+  });
+}
+
+$('.btn-check').click(checkMismatch);
 
 // 单击异文
 $(document).on('click', '.not-same', function (e) {
