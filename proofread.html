@@ -170,7 +170,7 @@
     createPage();
     
     $('.btn-cut-show').click(function() {
-      $.cut.toggleBox();
+      $.cut.toggleBox($.cut.state.readonly);
       $.cut.state.readonly = !$.cut.state.readonly;
     });
 

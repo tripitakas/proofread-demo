@@ -91,6 +91,7 @@
             text = text.split('');
             text[order - offset - 1] = char;
             $span.text(text.join(''));
+            // TODO: 如果span原来有空格，会丢失空格，可能需要重新填充空格
           }
         });
       }
