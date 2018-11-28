@@ -1,7 +1,7 @@
 /*
  * cut.js
  *
- * Date: 2018-10-23
+ * Date: 2018-10-28
  */
 (function() {
   'use strict';
@@ -134,7 +134,7 @@
       }
       return c;
     });
-	s = s.replace(/'/g, '"').replace(/: True/g, ': 1').replace(/: (False|None)/g, ': 0');
+    s = s.replace(/'/g, '"').replace(/: True/g, ': 1').replace(/: (False|None)/g, ': 0');
     return s;
   }
 
@@ -235,6 +235,10 @@
     state: state,
     getDistance: getDistance,
     rgb_a: rgb_a,
+
+    decodeJSON: function (text) {
+      return JSON.parse(decodeHtml(text));
+    },
 
     showHandles: function(el, handle) {
       var i, pt, r;
@@ -493,12 +497,13 @@
         }
       };
 
+      self.destroy();
       data.paper = Raphael(p.holder, p.width, p.height).initZoom();
       data.holder = document.getElementById(p.holder);
       state.focus = true;
 
       data.image = data.paper.image(p.image, 0, 0, p.width, p.height);
-      data.paper.rect(0, 0, p.width, p.height)
+      data.board = data.paper.rect(0, 0, p.width, p.height)
         .attr({'stroke': 'transparent', fill: data.boxFill});
 
       state.readonly = p.readonly;
@@ -518,7 +523,7 @@
       var xMin = 1e5, yMin= 1e5, leftTop = null;
 
       if (typeof p.chars === 'string') {
-        p.chars = JSON.parse(decodeHtml(p.chars));
+        p.chars = self.decodeJSON(p.chars);
       }
 
       p.chars.forEach(function(b, idx) {
@@ -547,6 +552,29 @@
       undoData.load(p.name, self._apply.bind(self));
 
       return data;
+    },
+
+    // 销毁所有图形
+    destroy: function() {
+      this.removeBandNumber(0, true);
+      if (data.image) {
+        data.image.remove();
+        delete data.image;
+      }
+      if (data.board) {
+        data.board.remove();
+        delete data.board;
+      }
+      data.chars.forEach(function(b) {
+        if (b.shape) {
+          b.shape.remove();
+          delete b.shape;
+        }
+      });
+      if (data.paper) {
+        data.paper.remove();
+        delete data.paper;
+      }
     },
 
     switchPage: function (name, pageData) {
@@ -603,13 +631,13 @@
       }
 
       var info = src && this.findCharById(src.data('cid')) || {};
+      var added = !info.char_id;
 
-      if (!info.char_id) {
+      if (added) {
         for (var i = 1; i < 999; i++) {
           info.char_id = 'new' + i;
           if (!this.findCharById(info.char_id)) {
             data.chars.push(info);
-            notifyChanged(dst, 'added');
             break;
           }
         }
@@ -618,6 +646,9 @@
       }
       dst.data('cid', info.char_id).data('char', dst.ch);
       info.shape = dst;
+      if (added) {
+        notifyChanged(dst, 'added');
+      }
 
       if (src) {
         dst.insertBefore(src);

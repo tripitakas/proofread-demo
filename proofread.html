@@ -46,6 +46,8 @@
                   <span><i title="放大" class="btn-enlarge"></i></span>
                   <span><i title="显隐字框" class="btn-cut-show"></i></span>
                   <span><i title="全屏" class="btn-fullscrean"></i></span>
+                  <button type="button" class="btn btn-default btn-sm" style="margin-left: 10px;" id="undo">撤销</button>
+                  <button type="button" class="btn btn-default btn-sm" id="redo">重做</button>
                 </div>
                 <div class="fr">
                   <form style="margin-right: 20px; display: inline-block;" action="#" id="change-order">
@@ -120,6 +122,8 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: blue">×</button>
             <h4 class="modal-title" id="cutModalLabel">字框校对</h4>
             <button type="button" class="btn btn-primary pull-right" style="margin-right: 30px; margin-top:-30px;">保存</button>
+            <button type="button" class="btn btn-default pull-right" style="margin-right: 15px; margin-top:-30px;" id="redo">重做</button>
+            <button type="button" class="btn btn-default pull-right" style="margin-right: 5px; margin-top:-30px;" id="undo">撤销</button>
           </div>
           <div class="modal-body">
             <div id="cut-canvas-bd" style="width: 1020px; height: calc(100% - 150px); overflow: auto">
@@ -139,12 +143,12 @@
   <script src="./js/raphael.js" type="text/javascript"></script>
   <script src="./js/raphael.zoom.js" type="text/javascript"></script>
   <script src="./js/jquery.mapkey.js" type="text/javascript"></script>
-  <script src="./js/cut.js?v=1118" type="text/javascript"></script>
-  <script src="./js/proof_keys.js?v=1118" type="text/javascript"></script>
-  <script src="./js/cut_keys.js?v=1118" type="text/javascript"></script>
+  <script src="./js/cut.js?v=1128" type="text/javascript"></script>
+  <script src="./js/proof_keys.js?v=1128" type="text/javascript"></script>
+  <script src="./js/cut_keys.js?v=1128" type="text/javascript"></script>
   <script src="data/QL_24_31.js" type="text/javascript"></script>
   <script src="data/QL_24_31.cut.js" type="text/javascript"></script>
-  <script src="./js/proofread.js?v=1118" type="text/javascript"></script>
+  <script src="./js/proofread.js?v=1128" type="text/javascript"></script>
 
   <script>
     function createPage() {
@@ -161,8 +165,14 @@
       $.cut.bindMatchingKeys();
       $.cut.toggleBox(false);
       $.cut.switchCurrentBox(null);
+      updateUndo();
     }
     createPage();
+    
+    $('.btn-cut-show').click(function() {
+      $.cut.toggleBox();
+      $.cut.state.readonly = !$.cut.state.readonly;
+    });
 
     $('.btn-fullscrean').click(function () {
       var $modal = $('#cutModal');
@@ -185,11 +195,25 @@
 
       $.fn.mapKey.bindings = { up: {}, down: {} };
       $.cut.bindKeys();
+      updateUndo();
 
       $modal.find('button.btn-primary').unbind('click').click(function () {
-        $modal.find('[data-dismiss="modal"]').click();
         cutdata.char_data = $.cut.exportBoxes();
+        $modal.find('[data-dismiss="modal"]').click();
       });
+    });
+
+    function updateUndo() {
+      $('#undo').toggleClass('disabled', !$.cut.canUndo());
+      $('#redo').toggleClass('disabled', !$.cut.canRedo());
+    }
+    $('#undo').click(function () {
+      $.cut.undo();
+      updateUndo();
+    });
+    $('#redo').click(function () {
+      $.cut.redo();
+      updateUndo();
     });
   </script>
 </body>
