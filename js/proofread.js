@@ -176,15 +176,38 @@ $(document).ready(function () {
 });
 
 // 对字数不匹配的行加下划线
-function checkMismatch() {
+function checkMismatch(report) {
+  var mismatch = [];
+  var total, ocrColumns = [];
+
+  $.cut.data.chars.forEach(function (c) {
+      if (c.shape && c.line_no) {
+          var t = c.block_no + ',' + c.line_no;
+          if (ocrColumns.indexOf(t) < 0) {
+            ocrColumns.push(t);
+          }
+      }
+  });
+  if (ocrColumns.length !== lineNos.length) {
+    total = '行数不匹配，文本 ' + lineNos.length + ' 行，图像 ' + ocrColumns.length + ' 行。';
+  }
   lineNos.forEach(function(no) {
     var boxes = $.cut.findCharsByLine(no[0], no[1]);
     var $line = $('#block-' + no[0] + ' #line-' + no[1]);
-    $line.toggleClass('mismatch', boxes.length != $line.text().replace(/\s/g, '').length);
+    var text = $line.text().replace(/\s/g, '');
+    $line.toggleClass('mismatch', boxes.length != text.length);
+    if (boxes.length != text.length) {
+      mismatch.push('第 ' + no[1] + ' 行，文本 ' + text.length + ' 字，图像 ' + boxes.length + ' 字。');
+    }
   });
+  if (report && total && mismatch.length) {
+      alert(total + '\n' + mismatch.join('\n'));
+  }
 }
 
-$('.btn-check').click(checkMismatch);
+$('.btn-check').click(function() {
+  checkMismatch(true);
+});
 
 // 单击异文
 $(document).on('click', '.not-same', function (e) {
