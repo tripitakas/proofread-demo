@@ -47,7 +47,7 @@
                   <span><i title="显隐字框" class="btn-cut-show"></i></span>
                   <span><i title="全屏" class="btn-fullscrean"></i></span>
                 </div>
-                <div class="fr">
+                <div class="fr" style="width:50%">
                   <form style="margin-right: 20px; display: inline-block;" action="#" id="change-order">
                     <input id="order" class="form-control" placeholder="序号" style="width: 55px; display: inline-block"
                       maxlength="2">
@@ -122,8 +122,8 @@
             <button type="button" class="btn btn-primary pull-right" style="margin-right: 30px; margin-top:-30px;">保存</button>
           </div>
           <div class="modal-body">
-            <div id="cut-canvas-bd" style="width: 1020px; height: 720px; overflow: auto">
-              <div id="cut-canvas" style="width: 1000px; height: 700px;"></div>
+            <div id="cut-canvas-bd" style="width: 1020px; height: calc(100% - 150px); overflow: auto">
+              <div id="cut-canvas" style="width: 1000px; height: calc(100% - 150px);"></div>
             </div>
           </div>
         </div>
