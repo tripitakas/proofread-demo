@@ -762,14 +762,14 @@
         return;
       }
       var s = data.ratio;
-      var x = box.x + box.width + 20 * s;
+      var x = box.x + box.width + 15 * s;
       var y = box.y + box.height / 2;
       data.texts = data.texts || {};
       data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
           data.paper.text(x, y, '' + num)
-            .attr({'font-size': 11 * s, 'text-align': 'center'}),
+            .attr({'font-size': 11 * s, 'text-align': 'left'}),
           data.paper.text(x + 15 * s, y, text)
-            .attr({'font-size': 17 * s, 'text-align': 'center', 'font-weight': 200, stroke: 'rgba(0,0,255,.7)'})];
+            .attr({'font-size': 17 * s, 'text-align': 'right', 'font-weight': 200, stroke: 'rgba(0,167,222,.8)'})];
       el.data('order', num);
       el.data('text', text);
     },
@@ -821,8 +821,8 @@
         });
       });
       if (box && first) {
-        data.bandNumberBox = data.paper.rect(box.x, box.y - 5, box.x2 - box.x + 5, box.y2 - box.y + 10, 5)
-          .attr({fill: 'rgba(255,255,255,.8)', stroke: 'rgba(0,0,0,.5)'});
+        data.bandNumberBox = data.paper.rect(box.x, box.y - 10, box.x2 - box.x + 15, box.y2 - box.y + 20, 5)
+          .attr({fill: 'rgba(255,255,255,1)', stroke: 'rgba(0,0,255,.2)'});
         data.bandNumberBox.insertBefore(first);
       }
     },

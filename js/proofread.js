@@ -381,3 +381,15 @@ $(document).on('click', '.btn-enlarge', function () {
     $.cut.setRatio($.cut.data.ratio * 1.5);
   }
 });
+// 显隐字框
+$(document).on('click', '.btn-cut-show', function () {
+    $(this).removeClass("btn-cut-show")
+    $(this).addClass("btn-cut-hidden")
+    // Todo
+
+});
+$(document).on('click', '.btn-cut-hidden', function () {
+    $(this).removeClass("btn-cut-hidden")
+    $(this).addClass("btn-cut-show")
+    // Todo
+});

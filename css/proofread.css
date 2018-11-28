@@ -15,7 +15,7 @@ text-align: center;
 }
 .pfread {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   position: relative;
 }
 
@@ -27,7 +27,7 @@ text-align: center;
 
 .pfread .bd {
   overflow: auto;
-  height: calc(100% - 80px);
+  height: calc(100% - 130px);
 }
 
 .pfread .left {
@@ -39,7 +39,7 @@ text-align: center;
 }
 
 .pfread .left .hd {
-  line-height: 50px;
+  line-height: 45px;
   border-bottom: 1px solid #ccc;
   padding: 0 10px;
 }
@@ -73,7 +73,7 @@ text-align: center;
 
 .pfread .left .bd {
   overflow: auto;
-  height: calc(100% - 80px);
+  height: calc(100% - 130px);
 }
 
 .pfread .right {
@@ -85,7 +85,7 @@ text-align: center;
 }
 
 .pfread .right .hd {
-  line-height: 50px;
+  line-height: 45px;
   border-bottom: 1px solid #ccc;
   padding: 0 10px;
   color: #2e363f;
@@ -124,6 +124,12 @@ text-align: center;
 }
 .pfread .hd i.btn-enlarge {
   background-image: url(../img/proofread/enlarge.png);
+}
+.pfread .hd i.btn-cut-show {
+  background-image: url(../img/proofread/cut-show.png);
+}
+.pfread .hd i.btn-cut-hidden {
+  background-image: url(../img/proofread/cut-hidden.png);
 }
 .pfread .hd i.btn-fullscrean {
   background-image: url(../img/proofread/fullscrean.png);
@@ -171,6 +177,7 @@ text-align: center;
   background-image: url(../img/proofread/returnback.png);
 }
 
+.btn-cut-show,.btn-cut-hidden,
 .btn-reduce,.btn-enlarge,.btn-fullscrean,
 .btn-addupline,.btn-adddownline,.btn-previous,.btn-next,
 .btn-variants-highlight,.btn-variants-normal,.btn-deleteline,
@@ -179,6 +186,7 @@ text-align: center;
   transition: all 0.2s;
 }
 
+.btn-cut-show:hover,.btn-cut-hidden:hover,
 .btn-reduce:hover,.btn-enlarge:hover,.btn-fullscrean:hover,
 .btn-addupline:hover,.btn-adddownline:hover,.btn-previous:hover,.btn-next:hover,
 .btn-variants-highlight:hover,.btn-variants-normal:hover,.btn-deleteline:hover,
@@ -265,4 +273,62 @@ text-align: center;
   border-top: none;
   border-left: none;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .3);
+}
+
+/* add by xiandu */
+.right .sutra-text {
+  font-size: 24px;
+  font-weight: 320;
+  margin-left: 10px;
+  letter-spacing: 1px;
+  line-height: 40px;
+}
+
+.right .not-same-info {
+  color: #28A0DE;
+  cursor: text;
+  line-height: 30px;
+}
+
+.right .diff {
+  color: red;
+  cursor: pointer;
+}
+
+.right .same {
+  color: black;
+}
+
+.right .variant {
+  color: black;
+  cursor: pointer;
+}
+
+.right span.emptyplace {
+  font-size: 20px;
+  width: 0px;
+  line-height: 24px;
+  padding: 0px 4px;
+  background-color: #00A7DE;
+  margin-left: 0px;
+}
+
+.right .current-span {
+  border: 1px solid #C1C1C1;
+}
+
+.right .variant-highlight {
+  color: blue;
+}
+
+.right .hidden {
+  display: none;
+}
+
+.right .delete {
+  display: none;
+}
+
+.mismatch span {
+  border-bottom: 1px solid red;
 }
