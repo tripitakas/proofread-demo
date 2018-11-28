@@ -85,7 +85,7 @@
 
         $line.find('span[offset]').each(function(i, el) {
           var $span = $(this);
-          var text = $span.text();
+          var text = $span.text().replace(/\s/g, '');
           var offset = parseInt($span.attr('offset'));
           if (order > offset && order <= offset + text.length) {
             text = text.split('');
