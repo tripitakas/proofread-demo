@@ -415,20 +415,21 @@ $(document).on('click', '.btn-enlarge', function () {
     highlightBox();
   }
 });
+function showAllBoxes() {
+  $(this).removeClass("btn-cut-show")
+  $(this).addClass("btn-cut-hidden")
+  $.cut.toggleBox(true);
+  $.cut.state.readonly = false;
+  $.fn.mapKey.bindings = {up: {}, down: {}};
+  $.cut.bindKeys();
+}
 // 显隐字框
-$(document).on('click', '.btn-cut-show', function () {
-    $(this).removeClass("btn-cut-show")
-    $(this).addClass("btn-cut-hidden")
-    $.cut.toggleBox($.cut.state.readonly);
-    $.cut.state.readonly = !$.cut.state.readonly;
-    $.fn.mapKey.bindings = {up: {}, down: {}};
-    $.cut.bindKeys();
-});
+$(document).on('click', '.btn-cut-show', showAllBoxes);
 $(document).on('click', '.btn-cut-hidden', function () {
     $(this).removeClass("btn-cut-hidden")
     $(this).addClass("btn-cut-show")
-    $.cut.toggleBox($.cut.state.readonly);
-    $.cut.state.readonly = !$.cut.state.readonly;
+    $.cut.toggleBox(false);
+    $.cut.state.readonly = true;
     $.fn.mapKey.bindings = {up: {}, down: {}};
     $.cut.bindMatchingKeys();
 });
