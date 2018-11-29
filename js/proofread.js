@@ -416,3 +416,27 @@ $(document).on('click', '.btn-cut-hidden', function () {
     $(this).addClass("btn-cut-show")
     // Todo
 });
+// 显隐序号
+$(document).on('click', '.btn-num-show', function () {
+    $(this).removeClass("btn-num-show")
+    $(this).addClass("btn-num-hidden")
+    // Todo
+
+});
+$(document).on('click', '.btn-num-hidden', function () {
+    $(this).removeClass("btn-num-hidden")
+    $(this).addClass("btn-num-show")
+    // Todo
+});
+// 显隐文本
+$(document).on('click', '.btn-txt-show', function () {
+    $(this).removeClass("btn-txt-show")
+    $(this).addClass("btn-txt-hidden")
+    // Todo
+
+});
+$(document).on('click', '.btn-txt-hidden', function () {
+    $(this).removeClass("btn-txt-hidden")
+    $(this).addClass("btn-txt-show")
+    // Todo
+});

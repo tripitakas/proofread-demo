@@ -25,9 +25,7 @@
 }
 
 .pfread-in {
-  padding-top: 15px;
-  padding-left: 15px;
-  width: calc(100% - 30px);
+  padding: 15 15 0 15;
 }
 
 .pfread .bd {
