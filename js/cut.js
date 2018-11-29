@@ -1,7 +1,7 @@
 /*
  * cut.js
  *
- * Date: 2018-10-28
+ * Date: 2018-10-29
  */
 (function() {
   'use strict';
@@ -753,7 +753,7 @@
 
     removeBox: function() {
       this.cancelDrag();
-      if (state.edit) {
+      if (state.edit && !state.readonly) {
         var el = state.edit;
         var info = this.findCharById(el.data('cid'));
         var hi = /small|narrow|flat/.test(data.hlType) && this.switchNextHighlightBox;
