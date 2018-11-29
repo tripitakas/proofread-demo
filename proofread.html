@@ -46,7 +46,7 @@
                   <span><i title="放大" class="btn-enlarge"></i></span>
                   <span><i title="显隐字框" class="btn-cut-show"></i></span>
                   <span><i title="显隐序号" class="btn-num-show"></i></span>
-                  <span><i title="显隐文本" class="btn-txt-show"></i></span>
+                  <span><i title="显隐文本" class="btn-txt-hidden"></i></span>
                   <span><i title="全屏" class="btn-fullscrean"></i></span>
                   <button type="button" class="btn btn-default btn-sm" style="margin-left: 10px;" id="undo">撤销</button>
                   <button type="button" class="btn btn-default btn-sm" id="redo">重做</button>
@@ -165,11 +165,6 @@
       updateUndo();
     }
     createPage();
-
-    $('.btn-cut-show').click(function () {
-      $.cut.toggleBox($.cut.state.readonly);
-      $.cut.state.readonly = !$.cut.state.readonly;
-    });
 
     $('.btn-fullscrean').click(function () {
       var $modal = $('#cutModal');

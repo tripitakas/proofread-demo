@@ -36,6 +36,10 @@ function findBestBoxes(offset, block_no, line_no, cmp) {
 
 // 高亮一行中字组元素对应的字框
 function highlightBox($span, first) {
+    if (!$span) {
+        $span = currentSpan[0];
+        first = currentSpan[1];
+    }
     var $line = $span.parent(), $block = $line.parent();
     var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
     var line_no = parseInt($line.attr('id').replace(/^.+-/, ''));
@@ -77,15 +81,15 @@ function highlightBox($span, first) {
     $.fn.mapKey.enabled = false;
     $.cut.data.block_no = block_no;
     $.cut.data.line_no = line_no;
+    currentSpan = [$span, first];
 
     // 按字序号浮动亮显当前行的字框
     text = $line.text().replace(/\s/g, '');
     all = $.cut.findCharsByLine(block_no, line_no);
-    all.forEach(function(box, i) {
-        box.char_no = i + 1;
-        $.cut.showBandNumber(box, i + 1, text[i]);
-    });
-    $.cut.unionBandNumbers();
+    $.cut.showFloatingPanel((showOrder || showText) ? all : [],
+      function(char, index) {
+          return (showOrder ? char.char_no : '') + (showText ? text[index] : '');
+      }, highlightBox);
 
     $.cut.switchCurrentBox(((boxes.length ? boxes : all)[0] || {}).shape);
 }
@@ -118,6 +122,9 @@ function getCursorPosition(element) {
 }
 
 var lineNos = [];
+var showOrder = true;
+var showText = false;
+var currentSpan = [];
 
 $(document).ready(function () {
     // 根据json生成html
@@ -408,35 +415,38 @@ $(document).on('click', '.btn-enlarge', function () {
 $(document).on('click', '.btn-cut-show', function () {
     $(this).removeClass("btn-cut-show")
     $(this).addClass("btn-cut-hidden")
-    // Todo
-
+    $.cut.toggleBox($.cut.state.readonly);
+    $.cut.state.readonly = !$.cut.state.readonly;
 });
 $(document).on('click', '.btn-cut-hidden', function () {
     $(this).removeClass("btn-cut-hidden")
     $(this).addClass("btn-cut-show")
-    // Todo
+    $.cut.toggleBox($.cut.state.readonly);
+    $.cut.state.readonly = !$.cut.state.readonly;
 });
 // 显隐序号
 $(document).on('click', '.btn-num-show', function () {
     $(this).removeClass("btn-num-show")
     $(this).addClass("btn-num-hidden")
-    // Todo
-
+    showOrder = !showOrder;
+    highlightBox();
 });
 $(document).on('click', '.btn-num-hidden', function () {
     $(this).removeClass("btn-num-hidden")
     $(this).addClass("btn-num-show")
-    // Todo
+    showOrder = !showOrder;
+    highlightBox();
 });
 // 显隐文本
 $(document).on('click', '.btn-txt-show', function () {
     $(this).removeClass("btn-txt-show")
     $(this).addClass("btn-txt-hidden")
-    // Todo
-
+    showText = !showText;
+    highlightBox();
 });
 $(document).on('click', '.btn-txt-hidden', function () {
     $(this).removeClass("btn-txt-hidden")
     $(this).addClass("btn-txt-show")
-    // Todo
+    showText = !showText;
+    highlightBox();
 });
