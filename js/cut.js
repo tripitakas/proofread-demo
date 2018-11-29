@@ -789,6 +789,7 @@
     showFloatingPanel: function(chars, content) {
       var s = data.ratio;
       var box, offset;
+      var self = this;
 
       // 计算字框的并集框、平移距离
       chars.forEach(function(c) {
@@ -818,6 +819,22 @@
         var text = content(c, i);
         if (p) {
           el.data('text', text);
+          if (!data.texts) {
+            data.texts = {};
+            self.onBoxChanged(function(info, box, reason) {
+              if (reason === 'navigate') {
+                for (var cid in data.texts) {
+                  if (data.texts.hasOwnProperty(cid)) {
+                    var rect = data.texts[cid][0];
+                    rect.attr({
+                      stroke: cid === info.shape.data('cid') ? rgb_a(data.changedColor, data.boxOpacity)
+                        : 'rgba(0,0,0,.1)'
+                    });
+                  }
+                }
+              }
+            });
+          }
           data.texts = data.texts || {};
           data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
               data.paper.rect(p.x + offset, p.y, p.width, p.height)
