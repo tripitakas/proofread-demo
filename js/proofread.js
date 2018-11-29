@@ -83,9 +83,10 @@ function highlightBox($span, first) {
     all = $.cut.findCharsByLine(block_no, line_no);
     all.forEach(function(box, i) {
         box.char_no = i + 1;
-        $.cut.showBandNumber(box, i + 1, text[i]);
     });
-    $.cut.unionBandNumbers();
+    $.cut.showFloatingPanel(all, function(char, index) {
+        return showOrder ? char.char_no : text[index];
+    });
 
     $.cut.switchCurrentBox(((boxes.length ? boxes : all)[0] || {}).shape);
 }
@@ -118,6 +119,7 @@ function getCursorPosition(element) {
 }
 
 var lineNos = [];
+var showOrder = true;
 
 $(document).ready(function () {
     // 根据json生成html
@@ -207,6 +209,13 @@ function checkMismatch(report) {
 
 $('.btn-check').click(function() {
   checkMismatch(true);
+});
+
+$('#show-order').click(function() {
+    showOrder = true;
+});
+$('#show-char').click(function() {
+    showOrder = false;
 });
 
 // 单击异文

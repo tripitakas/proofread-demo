@@ -785,24 +785,47 @@
       }
     },
 
-    showBandNumber: function (char, num, text) {
-      var el = char && char.shape;
-      var box = el && el.getBBox();
-
-      if (!box || !num || !text) {
-        return;
-      }
+    // 显示当前列字框的浮动文字面板
+    showFloatingPanel: function(chars, content) {
       var s = data.ratio;
-      var x = box.x + box.width + 15 * s;
-      var y = box.y + box.height / 2;
-      data.texts = data.texts || {};
-      data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
-          data.paper.text(x, y, '' + num)
-            .attr({'font-size': 11 * s, 'text-align': 'left'}),
-          data.paper.text(x + 15 * s, y, text)
-            .attr({'font-size': 17 * s, 'text-align': 'right', 'font-weight': 200, stroke: 'rgba(0,167,222,.8)'})];
-      el.data('order', num);
-      el.data('text', text);
+      var box, offset;
+
+      // 计算字框的并集框、平移距离
+      chars.forEach(function(c) {
+        var p = c.shape && c.shape.getBBox();
+        if (p) {
+          if (!box) {
+            box = $.extend({}, p);
+          } else {
+            box.x = Math.min(box.x, p.x);
+            box.y = Math.min(box.y, p.y);
+            box.x2 = Math.max(box.x2, p.x2);
+            box.y2 = Math.max(box.y2, p.y2);
+          }
+        }
+      });
+      box.width = box.x2 - box.x;
+      offset = box.width + 15;
+
+      // 显示浮动面板
+      box.x += offset;
+      data.bandNumberBox = data.paper.rect(box.x - 5, box.y - 5, box.width + 10, box.y2 - box.y + 10)
+        .attr({fill: '#fff', stroke: 'rgba(0,0,0,.05)', 'stroke-width': 0.5});
+      // 显示每个字框的浮动序号框
+      chars.forEach(function(c, i) {
+        var el = c.shape;
+        var p = el && el.getBBox();
+        var text = content(c, i);
+        if (p) {
+          el.data('text', text);
+          data.texts = data.texts || {};
+          data.texts[el.data('cid')] = data.texts[el.data('cid')] || [
+              data.paper.rect(p.x + offset, p.y, p.width, p.height)
+                .attr({stroke: 'rgba(0,0,0,.1)'}),
+              data.paper.text(p.x + p.width / 2 + offset, p.y + p.height / 2, '' + text)
+                .attr({'font-size': 11 * s, 'text-align': 'center'})]
+        }
+      });
     },
 
     removeBandNumber: function (char, all) {
@@ -828,33 +851,6 @@
         el.removeData('order');
         el.removeData('text');
         return text;
-      }
-    },
-
-    unionBandNumbers: function() {
-      if (data.bandNumberBox) {
-        data.bandNumberBox.remove();
-      }
-      var box, first;
-      data.chars.forEach(function (c) {
-        var arr = c.shape && data.texts[c.shape.data('cid')];
-        (arr || []).forEach(function(p) {
-          if (!box) {
-            box = p.getBBox();
-            first = p;
-          } else {
-            p = p.getBBox();
-            box.x = Math.min(box.x, p.x);
-            box.y = Math.min(box.y, p.y);
-            box.x2 = Math.max(box.x2, p.x2);
-            box.y2 = Math.max(box.y2, p.y2);
-          }
-        });
-      });
-      if (box && first) {
-        data.bandNumberBox = data.paper.rect(box.x, box.y - 10, box.x2 - box.x + 15, box.y2 - box.y + 20, 5)
-          .attr({fill: 'rgba(255,255,255,1)', stroke: 'rgba(0,0,255,.2)'});
-        data.bandNumberBox.insertBefore(first);
       }
     },
 
