@@ -111,7 +111,7 @@
       box.x += offset;
       if (chars.length) {
         data.bandNumberBox = data.paper.rect(box.x - 5, box.y - 5, box.width + 10, box.y2 - box.y + 10)
-          .attr({fill: '#fff', stroke: 'rgba(0,0,0,.05)', 'stroke-width': 0.5});
+          .attr({fill: '#fff', stroke: 'rgba(0,0,0,.1)'});
       }
       // 显示每个字框的浮动序号框
       chars.forEach(function(c, i) {
@@ -126,7 +126,10 @@
               data.paper.rect(p.x + offset, p.y, p.width, p.height)
                 .attr({stroke: 'rgba(0,0,0,.1)'}),
               data.paper.text(p.x + p.width / 2 + offset, p.y + p.height / 2, '' + text)
-                .attr({'font-size': 11 * s, 'text-align': 'center'})]
+                .attr({'font-size': 11 * s, 'text-align': 'center'}),
+              data.paper.rect(p.x, p.y, p.width, p.height)
+                .attr({stroke: 'rgba(0,0,0,.2)'})
+            ]
         }
       });
     },

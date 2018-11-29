@@ -75,7 +75,6 @@ function highlightBox($span, first) {
         }
     }
 
-    $.cut.toggleBox(false);
     $.cut.removeBandNumber(0, true);
     $.cut.state.focus = false;
     $.fn.mapKey.enabled = false;

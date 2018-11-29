@@ -170,6 +170,7 @@
       var $modal = $('#cutModal');
       var bindings = $.fn.mapKey.bindings;
 
+      cutdata.char_data = $.cut.exportBoxes();
       $modal.modal().on('hidden.bs.modal', function () {
         $.fn.mapKey.bindings = bindings;
         createPage();
