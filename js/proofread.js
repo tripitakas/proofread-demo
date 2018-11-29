@@ -416,8 +416,9 @@ $(document).on('click', '.btn-enlarge', function () {
   }
 });
 window.showAllBoxes = function() {
-  $('.btn-cut-show').removeClass("btn-cut-show")
-  $('.btn-cut-show').addClass("btn-cut-hidden")
+  var $this = $('.btn-cut-show');
+  $this.removeClass("btn-cut-show");
+  $this.addClass("btn-cut-hidden")
   $.cut.toggleBox(true);
   $.cut.state.readonly = false;
   $.fn.mapKey.bindings = {up: {}, down: {}};
