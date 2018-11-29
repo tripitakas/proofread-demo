@@ -39,6 +39,9 @@ function highlightBox($span, first) {
     if (!$span) {
         $span = currentSpan[0];
         first = currentSpan[1];
+        if (!$span) {
+            return;
+        }
     }
     var $line = $span.parent(), $block = $line.parent();
     var block_no = parseInt($block.attr('id').replace(/^.+-/, ''));
@@ -402,12 +405,14 @@ $(document).on('click', '.btn-emptyplaces-hidden', function () {
 $(document).on('click', '.btn-reduce', function () {
   if ($.cut.data.ratio > 0.5) {
     $.cut.setRatio($.cut.data.ratio * 0.9);
+    highlightBox();
   }
 });
 // 放大画布
 $(document).on('click', '.btn-enlarge', function () {
   if ($.cut.data.ratio < 5) {
     $.cut.setRatio($.cut.data.ratio * 1.5);
+    highlightBox();
   }
 });
 // 显隐字框
@@ -416,12 +421,16 @@ $(document).on('click', '.btn-cut-show', function () {
     $(this).addClass("btn-cut-hidden")
     $.cut.toggleBox($.cut.state.readonly);
     $.cut.state.readonly = !$.cut.state.readonly;
+    $.fn.mapKey.bindings = {up: {}, down: {}};
+    $.cut.bindKeys();
 });
 $(document).on('click', '.btn-cut-hidden', function () {
     $(this).removeClass("btn-cut-hidden")
     $(this).addClass("btn-cut-show")
     $.cut.toggleBox($.cut.state.readonly);
     $.cut.state.readonly = !$.cut.state.readonly;
+    $.fn.mapKey.bindings = {up: {}, down: {}};
+    $.cut.bindMatchingKeys();
 });
 // 显隐序号
 $(document).on('click', '.btn-num-show', function () {
@@ -429,12 +438,14 @@ $(document).on('click', '.btn-num-show', function () {
     $(this).addClass("btn-num-hidden")
     showOrder = !showOrder;
     highlightBox();
+    $('#order').toggle(showOrder);
 });
 $(document).on('click', '.btn-num-hidden', function () {
     $(this).removeClass("btn-num-hidden")
     $(this).addClass("btn-num-show")
     showOrder = !showOrder;
     highlightBox();
+    $('#order').toggle(showOrder);
 });
 // 显隐文本
 $(document).on('click', '.btn-txt-show', function () {

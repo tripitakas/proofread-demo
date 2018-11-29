@@ -104,11 +104,13 @@
           }
         }
       });
-      box.width = box.x2 - box.x;
-      offset = box.width + 30;
+      if (box) {
+        box.width = box.x2 - box.x;
+        offset = box.width + 15;
+        box.x += offset;
+      }
 
       // 显示浮动面板
-      box.x += offset;
       if (chars.length) {
         data.bandNumberBox = data.paper.rect(box.x - 5, box.y - 5, box.width + 10, box.y2 - box.y + 10)
           .attr({fill: '#fff', stroke: 'rgba(0,0,0,.1)'});
