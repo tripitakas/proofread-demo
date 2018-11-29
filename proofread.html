@@ -13,7 +13,7 @@
 
 <body>
   <div id="main">
-    <div id="top-nav" class="container-fluid navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div id="top-nav" class="container-fluid navbar navbar-xs navbar-normal navbar-fixed-top">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1"
           aria-expanded="false">
@@ -22,15 +22,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+        <a class="navbar-brand" style="color: #e4c3a8"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>
           文字校对 </a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <button type="button" class="btn btn-primary navbar-btn" id="save">保存</button>
-          <button type="button" class="btn btn-primary navbar-btn" id="submit">提交</button>
+          <button type="button" class="btn btn-normal navbar-btn" id="save">保存</button>
+          <button type="button" class="btn btn-normal navbar-btn" id="submit">提交</button>
         </ul>
       </div>
     </div>
@@ -45,18 +45,15 @@
                   <span><i title="缩小" class="btn-reduce"></i></span>
                   <span><i title="放大" class="btn-enlarge"></i></span>
                   <span><i title="显隐字框" class="btn-cut-show"></i></span>
+                  <span><i title="显隐序号" class="btn-num-show"></i></span>
+                  <span><i title="显隐文本" class="btn-txt-show"></i></span>
                   <span><i title="全屏" class="btn-fullscrean"></i></span>
                   <button type="button" class="btn btn-default btn-sm" style="margin-left: 10px;" id="undo">撤销</button>
                   <button type="button" class="btn btn-default btn-sm" id="redo">重做</button>
                 </div>
                 <div class="fr">
-                  <form style="margin-right: 20px; display: inline-block;" action="#" id="change-order">
-                    <input id="order" class="form-control input-sm" placeholder="序号" style="width: 45px; display: inline-block"
-                      maxlength="2">
-                    <input id="char" class="form-control input-sm" placeholder="字" style="width: 45px; display: inline-block"
-                      maxlength="1">
-                    <button type="submit" class="btn btn-default btn-sm" style="margin-bottom: 3px;">修改</button>
-                  </form>
+                  <input id="order" class="form-control input-sm" placeholder="序号" style="width: 50px; margin: 8 8 0 0;"
+                    maxlength="2">
                 </div>
               </div>
             </div>
@@ -168,8 +165,8 @@
       updateUndo();
     }
     createPage();
-    
-    $('.btn-cut-show').click(function() {
+
+    $('.btn-cut-show').click(function () {
       $.cut.toggleBox($.cut.state.readonly);
       $.cut.state.readonly = !$.cut.state.readonly;
     });
@@ -193,7 +190,10 @@
         chars: cutdata.char_data
       });
 
-      $.fn.mapKey.bindings = { up: {}, down: {} };
+      $.fn.mapKey.bindings = {
+        up: {},
+        down: {}
+      };
       $.cut.bindKeys();
       updateUndo();
 
