@@ -420,7 +420,6 @@ window.showAllBoxes = function() {
   $this.removeClass("btn-cut-show");
   $this.addClass("btn-cut-hidden")
   $.cut.toggleBox(true);
-  $.cut.state.readonly = false;
   $.fn.mapKey.bindings = {up: {}, down: {}};
   $.cut.bindKeys();
 };
@@ -430,7 +429,6 @@ $(document).on('click', '.btn-cut-hidden', function () {
     $(this).removeClass("btn-cut-hidden")
     $(this).addClass("btn-cut-show")
     $.cut.toggleBox(false);
-    $.cut.state.readonly = true;
     $.fn.mapKey.bindings = {up: {}, down: {}};
     $.cut.bindMatchingKeys();
 });
